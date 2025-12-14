@@ -1,5 +1,7 @@
 CXX = g++
 
+# valgrind ./izvrsni - za proveru da li ima curenja memorije
+
 izvrsni: DinamickiNiz.o Test.o
 	$(CXX) $^ -o $@
 
