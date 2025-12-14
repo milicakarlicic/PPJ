@@ -1,0 +1,29 @@
+<html><body><pre><span style="color:green">#include &ltstdio.h&gt </span>
+<span style="color:green">#define P 0</span>
+<span style="color:green">#define N 1</span>
+
+<span style="color:green">#define MAX(a, b)\
+    a &gt b ? a : b</span>
+
+<span style="color:grey">/* Glavni 
+program */</span>
+
+<B><span style="color:blue">int</span></B> <B>main</B> () {
+    <B><span style="color:blue">char</span></B> <B>c</B>;
+    <B><span style="color:blue">int</span></B> <B>stanje</B> = <B>P</B>;
+    <B><span style="color:blue">int</span></B> <B>prelaz</B> [2][2] = { {<B>N</B>, <B>P</B>}, {<B>P</B>, <B>N</B>} };
+
+    <B><span style="color:blue">while</span></B> ((<B>c</B> = <B>getchar</B> ()) != <B>EOF</B> && <B>c</B> != '\<B>n</B>') { 
+        <B><span style="color:blue">if</span></B> (<B>c</B> != '0' && <B>c</B> != '1') {
+            <B>printf</B> (<span style="color:red">"Greska :%c.\n"</span>, <B>c</B>);
+            <B><span style="color:blue">return</span></B> -1;
+        }
+        <B>stanje</B> = <B>prelaz</B> [ <B>stanje</B> ][<B>c</B> - '0'];
+    }
+
+    <B><span style="color:blue">if</span></B> (<B>stanje</B> == <B>P</B>)
+        <B>printf</B> (<span style="color:red">"Prepoznata parna rec .\n\\"</span>);
+    <B><span style="color:blue">else</span></B>
+        <B>printf</B> (<span style="color:red">"Nije prepoznata parna rec .\n"</span>);
+    <B><span style="color:blue">return</span></B> 0;
+}</pre></body></html>

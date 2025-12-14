@@ -1,0 +1,122 @@
+
+%{
+    // zaglavlja + globalne prom
+    #include <iostream>
+    #include <cstdlib>
+    #include <map>
+
+    using namespace std;
+
+    extern int yylex();
+
+    void yyerror(const string &poruka) {
+        cerr << poruka << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    map<string, int> promenljive;
+%}
+
+// promena tipa atributa yylval u tip unija (podrazumevano int)
+%union {
+    int i;
+    string *s;
+    bool b;
+}
+
+// tip atributa neterminala izraz je tip promenljive b iz unije
+%type <i> izraz
+%type <b> logicka_naredba
+
+// direktiva kojom definisemo tokene
+%token <i> BROJ
+// tip atributa tokena ID je tip promenljive s iz unije
+%token <s> ID
+%token PRINT JEDNAKO RAZLICITO
+
+// asocijativnost + prioritet
+%left '+' '-'
+%left '*' '/'
+%right UN_MINUS
+
+%%
+
+// program je niz naredbi
+// iza svake naredbe ide ';'
+program: program naredba ';'
+| naredba ';'
+;
+
+naredba: ID '=' izraz {
+    promenljive[*$1] = $3;
+    delete $1;
+}
+| PRINT '(' izraz ')' {
+    cout << $3 << endl;
+}
+| logicka_naredba {
+    if ($1 == true) {
+        cout << "true" << endl;
+    } else {
+        cout << "false" << endl;
+    }
+}
+;
+
+logicka_naredba: izraz JEDNAKO izraz {
+    $$ = $1 == $3;
+}
+| izraz RAZLICITO izraz {
+    $$ = $1 != $3;
+}
+;
+
+izraz: izraz '+' izraz {
+    // $$ - vrednost atributa neterminala sa leve strane pravila 
+	// $1 - vrednost atributa prvog 'izraz' sa desne strane pravila
+	// $2 - vrednost atributa '+'
+	// $3 - vrednost atributa drugog 'izraz' sa desne strane pravila
+    $$ = $1 + $3;
+}
+| izraz '-' izraz {
+    $$ = $1 - $3;
+}
+| izraz '*' izraz {
+    $$ = $1 * $3;
+}
+| izraz '/' izraz {
+    $$ = $1 / $3;
+}
+// direktivom %prec zadajemo da unarni minus ima isti prioritet i asocijativnost kao token UMINUS
+| '-' izraz %prec UN_MINUS {
+    $$ = -$2;
+}
+| '(' izraz ')' {
+    $$ = $2;
+}
+| BROJ {
+    $$ = $1;
+}
+| ID {
+    auto it = promenljive.find(*$1);
+    delete $1;
+    // it -> (kljuc, vrednost)
+    if (it == promenljive.end()) {
+        yyerror("Promenljiva nije definisana!");
+    }
+
+    $$ = it->second;
+} 
+;
+
+%%
+
+int main() {
+    if (yyparse() == 0) {
+        cout << "ok sintaksa" << endl;
+    } else {
+        cout << "sintaksna greska" << endl;
+    }
+
+    return 0;
+}
