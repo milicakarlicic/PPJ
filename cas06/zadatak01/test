@@ -1,0 +1,19 @@
+poly p = <1,2,3>;
+poly q;
+poly r(5);
+
+print(p);
+print(q);
+print(<1,2,3,4>);
+
+r = p + q*2 + r*deg(p);
+poly s = 2*r - q*p;
+print(-s);
+print(-s[2.5] + <1,2>);
+
+poly t = s';
+print(int(t, 3)*q + 2);
+
+3*p == int(q,2);
+s' != int(<-3.4, 2.7, 0, 7.6>,2);
+p == <1,2,3>;
