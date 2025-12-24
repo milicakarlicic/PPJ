@@ -49,15 +49,27 @@ niz_naredbi: niz_naredbi naredba ';'
 ;
 
 naredba: POLY ID '=' polinom {
+    auto it = promenljive.find(*$2);
+    if (it != promenljive.end()) {
+        yyerror("Promenljiva vec definisana!");
+    }
     promenljive[*$2] = *$4;
     delete $2; 
     delete $4;
 }
 | POLY ID {
+    auto it = promenljive.find(*$2);
+    if (it != promenljive.end()) {
+        yyerror("Promenljiva vec definisana!");
+    }
     promenljive[*$2] = Polinom();
     delete $2;
 }
 | POLY ID '(' BROJ ')' {
+    auto it = promenljive.find(*$2);
+    if (it != promenljive.end()) {
+        yyerror("Promenljiva vec definisana!");
+    }
     promenljive[*$2] = Polinom($4);
     delete $2;
 }
