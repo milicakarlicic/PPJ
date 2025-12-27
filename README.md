@@ -9,3 +9,4 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
   - čas04: _Flex_ - nastavak. C++.
   - čas05: C++ - nastavak. _Bison_.
   - čas06: _Bison_ - nastavak.
+  - čas07: C++ - nasleđivanje.
