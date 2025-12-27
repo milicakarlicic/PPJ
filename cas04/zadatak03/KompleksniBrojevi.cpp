@@ -1,5 +1,7 @@
 #include "KompleksniBrojevi.h"
 
+using namespace std;
+
 KompleksanBroj::KompleksanBroj(double realni, double imaginarni) 
     : _realni(realni), _imaginarni(imaginarni) {}
 

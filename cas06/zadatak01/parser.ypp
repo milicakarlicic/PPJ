@@ -5,6 +5,7 @@
     #include <vector>
     #include "Polinom.hpp"
 
+    // za debagovanje sintaksne greske
     #define YYDEBUG     1
 
     using namespace std;
