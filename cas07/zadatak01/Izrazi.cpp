@@ -44,7 +44,7 @@ double Konstanta::izracunaj(const TablicaSimbola &t) const {
     return _vrednost;
 }
 
-Izraz* Konstanta::izvod(const string &naziv) const {
+Izraz* Konstanta::izvod(const string &prom) const {
     return new Konstanta(0);
 }
 
@@ -65,8 +65,8 @@ double Promenljiva::izracunaj(const TablicaSimbola &t) const {
     return t.vrednostPromenljive(_naziv);
 }
 
-Izraz* Promenljiva::izvod(const string &naziv) const {
-    return _naziv == naziv ? new Konstanta(1) : new Konstanta(0);
+Izraz* Promenljiva::izvod(const string &prom) const {
+    return _naziv == prom ? new Konstanta(1) : new Konstanta(0);
 }
 
 Izraz* Promenljiva::kopija() const {
@@ -100,11 +100,11 @@ double Kosinus::izracunaj(const TablicaSimbola &t) const {
     return cos(_operand->izracunaj(t));
 }
 
-Izraz* Kosinus::izvod(const string &naziv) const {
+Izraz* Kosinus::izvod(const string &prom) const {
     // cos(i) = -1*sin(i)*i'
     return new Proizvod(
         new Proizvod(new Konstanta(-1), new Sinus(_operand->kopija()))
-        , _operand->izvod(naziv));
+        , _operand->izvod(prom));
 }
 
 Izraz* Kosinus::kopija() const {
@@ -122,8 +122,8 @@ double Zbir::izracunaj(const TablicaSimbola &t) const {
     return _levi->izracunaj(t) + _desni->izracunaj(t);
 }
 
-Izraz* Zbir::izvod(const string &naziv) const {
-    return new Zbir(_levi->izvod(naziv), _desni->izvod(naziv));
+Izraz* Zbir::izvod(const string &prom) const {
+    return new Zbir(_levi->izvod(prom), _desni->izvod(prom));
 }
 
 Izraz* Zbir::kopija() const {
@@ -138,11 +138,11 @@ double Proizvod::izracunaj(const TablicaSimbola &t) const {
     return _levi->izracunaj(t) * _desni->izracunaj(t);
 }
 
-Izraz* Proizvod::izvod(const string &naziv) const {
+Izraz* Proizvod::izvod(const string &prom) const {
     // xy = x'y + xy'
     return new Zbir(
-        new Proizvod(_levi->izvod(naziv), _desni->kopija()),
-        new Proizvod(_levi->kopija(), _desni->izvod(naziv))
+        new Proizvod(_levi->izvod(prom), _desni->kopija()),
+        new Proizvod(_levi->kopija(), _desni->izvod(prom))
     );
 }
 

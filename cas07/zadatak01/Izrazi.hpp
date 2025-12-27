@@ -37,7 +37,7 @@ public:
         : _vrednost(vrednost) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
 
@@ -49,7 +49,7 @@ public:
         : _naziv(naziv) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
 
@@ -76,7 +76,7 @@ public:
         : UnarniIzraz(operand) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
 
@@ -86,7 +86,7 @@ public:
         : UnarniIzraz(operand) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
 
@@ -115,7 +115,7 @@ public:
         : BinarniIzraz(levi, desni) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
 
@@ -125,7 +125,7 @@ public:
         : BinarniIzraz(levi, desni) {}
     virtual void ispis(std::ostream &izlaz) const;
     virtual double izracunaj(const TablicaSimbola &t) const;
-    virtual Izraz* izvod(const std::string &naziv) const;
+    virtual Izraz* izvod(const std::string &prom) const;
     virtual Izraz* kopija() const;
 };
  
