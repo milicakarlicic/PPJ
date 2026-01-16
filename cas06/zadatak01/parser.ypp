@@ -26,14 +26,14 @@
 %right '['
 %right '\''
 
-%token <d> BROJ
-%token <s> ID
+%token<d> BROJ
+%token<s> ID
 %token POLY 
 %token PRINT DEG JEDNAKO RAZLICITO INT
 
-%type <v> niz_brojeva
-%type <p> polinom
-%type <b> logicka_naredba
+%type<v> niz_brojeva
+%type<p> polinom
+%type<b> logicka_naredba
 
 %union {
     double d;

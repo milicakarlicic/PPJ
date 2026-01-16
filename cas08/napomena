@@ -1,0 +1,3 @@
+Na casu nismo stigli da implementiramo konstruktor kopije, metodu za kopiranje (treba nam zbog konstruktora kopije) i cvor za poredjenje po jednakosti.  
+
+Malo sam izmijenila hijerarhiju klasa: Definicija i Dodela nasledjuju UnarniCvor 

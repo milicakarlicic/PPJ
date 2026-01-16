@@ -25,13 +25,13 @@
 }
 
 // tip atributa neterminala izraz je tip promenljive b iz unije
-%type <i> izraz
-%type <b> logicka_naredba
+%type<i> izraz
+%type<b> logicka_naredba
 
 // direktiva kojom definisemo tokene
-%token <i> BROJ
+%token<i> BROJ
 // tip atributa tokena ID je tip promenljive s iz unije
-%token <s> ID
+%token<s> ID
 %token PRINT JEDNAKO RAZLICITO
 
 // asocijativnost + prioritet

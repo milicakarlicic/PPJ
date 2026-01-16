@@ -6,12 +6,11 @@
 #include <cmath>
 
 class Polinom {
-private: 
-    std::vector<double> _koef;
 public:
     Polinom();
     Polinom(int stepen);
     Polinom(const std::vector<double> &koef);
+
     void ispisi(std::ostream &izlaz) const;
     void dodajKoef(double koef);
     Polinom operator + (const Polinom &p) const;
@@ -24,6 +23,8 @@ public:
     int getStepen() const;
     Polinom izvod() const;
     Polinom integral(double c) const;
+private: 
+    std::vector<double> _koef;
 };
 
 std::ostream& operator << (std::ostream &izlaz, const Polinom &p);

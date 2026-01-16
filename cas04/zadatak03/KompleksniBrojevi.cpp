@@ -1,16 +1,14 @@
 #include "KompleksniBrojevi.h"
 
-using namespace std;
-
 KompleksanBroj::KompleksanBroj(double realni, double imaginarni) 
     : _realni(realni), _imaginarni(imaginarni) {}
 
-void KompleksanBroj::ispisi(ostream &izlaz) const {
-    string znak = _imaginarni >= 0 ? " + " : " - ";
+void KompleksanBroj::ispisi(std::ostream &izlaz) const {
+    std::string znak = _imaginarni >= 0 ? " + " : " - ";
     izlaz << _realni << znak << fabs(_imaginarni) << "i";
 }
 
-void KompleksanBroj::ucitaj(istream &ulaz) {
+void KompleksanBroj::ucitaj(std::istream &ulaz) {
     ulaz >> _realni >> _imaginarni;
 }
 
@@ -34,13 +32,13 @@ bool KompleksanBroj::operator == (const KompleksanBroj &z) const {
     return _realni == z._realni && _imaginarni == z._imaginarni;
 }
 
-ostream& operator << (ostream &izlaz, const KompleksanBroj &z) {
+std::ostream& operator << (std::ostream &izlaz, const KompleksanBroj &z) {
     z.ispisi(izlaz);
     return izlaz;
 }
 
-istream& operator >> (istream &ulaz, KompleksanBroj &z) {
-    cout << "Unesi kompleksan broj bez razmaka u formatu: a+bi" << endl;
+std::istream& operator >> (std::istream &ulaz, KompleksanBroj &z) {
+    std::cout << "Unesi kompleksan broj bez razmaka u formatu: a+bi" << std::endl;
     z.ucitaj(ulaz); 
 
     return ulaz;

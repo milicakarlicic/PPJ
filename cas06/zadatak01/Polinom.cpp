@@ -1,7 +1,5 @@
 #include "Polinom.hpp"
 
-using namespace std;
-
 Polinom::Polinom()
     : _koef() {}  
 
@@ -10,7 +8,7 @@ Polinom::Polinom(int stepen)
     _koef[stepen] = 1;
 }
 
-Polinom::Polinom(const vector<double> &koef) 
+Polinom::Polinom(const std::vector<double> &koef) 
     : _koef(koef) {}
 
 
@@ -49,8 +47,8 @@ std::ostream& operator << (std::ostream &izlaz, const Polinom &p) {
 }
 
 Polinom Polinom::operator + (const Polinom& p) const {
-    unsigned stepen = max(getStepen(), p.getStepen());
-    vector<double> rezultat(stepen + 1);
+    unsigned stepen = std::max(getStepen(), p.getStepen());
+    std::vector<double> rezultat(stepen + 1);
     
     int i = 0;
     for(i = 0; i <= getStepen() && i <= p.getStepen(); i++)  {
@@ -69,8 +67,8 @@ Polinom Polinom::operator + (const Polinom& p) const {
 }
 
 Polinom Polinom::operator - (const Polinom& p) const {
-    unsigned stepen = max(getStepen(), p.getStepen());
-    vector<double> rezultat(stepen + 1);
+    unsigned stepen = std::max(getStepen(), p.getStepen());
+    std::vector<double> rezultat(stepen + 1);
 
     int i;
     for(i = 0; i <= getStepen() && i <= p.getStepen(); i++) {
@@ -89,7 +87,7 @@ Polinom Polinom::operator - (const Polinom& p) const {
 }
 
 Polinom Polinom::operator * (const Polinom &p) const {
-    vector<double> rezultat(getStepen() + p.getStepen() + 1);
+    std::vector<double> rezultat(getStepen() + p.getStepen() + 1);
 
     for (int i = 0; i <= getStepen(); i++) {
         for (int j = 0; j <= p.getStepen(); j++) {
@@ -101,7 +99,7 @@ Polinom Polinom::operator * (const Polinom &p) const {
 }
 
 Polinom Polinom::operator - () const {
-    vector<double> rezultat(getStepen() + 1);
+    std::vector<double> rezultat(getStepen() + 1);
 
     for(unsigned i = 0; i <= getStepen(); i++) {
         rezultat[i] = - _koef[i];
@@ -127,7 +125,7 @@ int Polinom::getStepen() const {
 }
 
 Polinom Polinom::izvod() const {
-    vector<double> rezultat(_koef.size() - 1);
+    std::vector<double> rezultat(_koef.size() - 1);
 
     for (int i = 1; i <= getStepen(); i++) {
         rezultat[i - 1] = _koef[i] * i;
@@ -137,7 +135,7 @@ Polinom Polinom::izvod() const {
 }
 
 Polinom Polinom::integral(double c) const {
-    vector<double> rezultat(_koef.size() + 1);
+    std::vector<double> rezultat(_koef.size() + 1);
 
     rezultat[0] = c;
     for (int i = 0; i <= getStepen(); i++) {

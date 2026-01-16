@@ -1,26 +1,24 @@
 #include "Izrazi.hpp"
 
-using namespace std;
-
 ////////////////////////////////////////////////
 
-bool TablicaSimbola::dodajPromenljivu(const string &naziv, double vrednost) {
-    auto it = promenljive.find(naziv);
-    if (it != promenljive.end()) {
+bool TablicaSimbola::dodajPromenljivu(const std::string &id, double vrednost) {
+    auto it = _promenljive.find(id);
+    if (it != _promenljive.end()) {
         return false;
     }
-    promenljive[naziv] = vrednost;
+    _promenljive[id] = vrednost;
     return true;
 }
 
-bool TablicaSimbola::definisanaPromenljiva(const string &naziv) const {
-    auto it = promenljive.find(naziv);
-    return it != promenljive.end();
+bool TablicaSimbola::definisanaPromenljiva(const std::string &id) const {
+    auto it = _promenljive.find(id);
+    return it != _promenljive.end();
 }
 
-double TablicaSimbola::vrednostPromenljive(const string &naziv) const {
-    auto it = promenljive.find(naziv);
-    if (it == promenljive.end()) {
+double TablicaSimbola::vrednostPromenljive(const std::string &id) const {
+    auto it = _promenljive.find(id);
+    if (it == _promenljive.end()) {
         throw "Promenljiva nije definisana!";
     }
 
@@ -29,14 +27,14 @@ double TablicaSimbola::vrednostPromenljive(const string &naziv) const {
 
 ////////////////////////////////////////////////
 
-ostream& operator << (ostream &izlaz, const Izraz &i) {
+std::ostream& operator << (std::ostream &izlaz, const Izraz &i) {
     i.ispis(izlaz);
     return izlaz;
 }
 
 ////////////////////////////////////////////////
 
-void Konstanta::ispis(ostream &izlaz) const {
+void Konstanta::ispis(std::ostream &izlaz) const {
     izlaz << _vrednost;
 }
 
@@ -44,7 +42,7 @@ double Konstanta::izracunaj(const TablicaSimbola &t) const {
     return _vrednost;
 }
 
-Izraz* Konstanta::izvod(const string &prom) const {
+Izraz* Konstanta::izvod(const std::string &id) const {
     return new Konstanta(0);
 }
 
@@ -55,18 +53,18 @@ Izraz* Konstanta::kopija() const {
 ////////////////////////////////////////////////
 
 void Promenljiva::ispis(std::ostream &izlaz) const {
-    izlaz << _naziv;
+    izlaz << _id;
 }
 
 double Promenljiva::izracunaj(const TablicaSimbola &t) const {
-    if (!t.definisanaPromenljiva(_naziv)) {
+    if (!t.definisanaPromenljiva(_id)) {
         throw "Promenljiva nije definisana!";
     }
-    return t.vrednostPromenljive(_naziv);
+    return t.vrednostPromenljive(_id);
 }
 
-Izraz* Promenljiva::izvod(const string &prom) const {
-    return _naziv == prom ? new Konstanta(1) : new Konstanta(0);
+Izraz* Promenljiva::izvod(const std::string &id) const {
+    return _id == id ? new Konstanta(1) : new Konstanta(0);
 }
 
 Izraz* Promenljiva::kopija() const {
@@ -83,9 +81,9 @@ double Sinus::izracunaj(const TablicaSimbola &t) const {
     return sin(_operand->izracunaj(t));
 }
 
-Izraz* Sinus::izvod(const string &naziv) const {
+Izraz* Sinus::izvod(const std::string &id) const {
     // sin(i)' = cos(i)*i'
-    return new Proizvod(new Kosinus(_operand->kopija()), _operand->izvod(naziv));
+    return new Proizvod(new Kosinus(_operand->kopija()), _operand->izvod(id));
 }
 
 Izraz* Sinus::kopija() const {
@@ -100,11 +98,11 @@ double Kosinus::izracunaj(const TablicaSimbola &t) const {
     return cos(_operand->izracunaj(t));
 }
 
-Izraz* Kosinus::izvod(const string &prom) const {
+Izraz* Kosinus::izvod(const std::string &id) const {
     // cos(i) = -1*sin(i)*i'
     return new Proizvod(
         new Proizvod(new Konstanta(-1), new Sinus(_operand->kopija()))
-        , _operand->izvod(prom));
+        , _operand->izvod(id));
 }
 
 Izraz* Kosinus::kopija() const {
@@ -122,8 +120,8 @@ double Zbir::izracunaj(const TablicaSimbola &t) const {
     return _levi->izracunaj(t) + _desni->izracunaj(t);
 }
 
-Izraz* Zbir::izvod(const string &prom) const {
-    return new Zbir(_levi->izvod(prom), _desni->izvod(prom));
+Izraz* Zbir::izvod(const std::string &id) const {
+    return new Zbir(_levi->izvod(id), _desni->izvod(id));
 }
 
 Izraz* Zbir::kopija() const {
@@ -138,11 +136,11 @@ double Proizvod::izracunaj(const TablicaSimbola &t) const {
     return _levi->izracunaj(t) * _desni->izracunaj(t);
 }
 
-Izraz* Proizvod::izvod(const string &prom) const {
+Izraz* Proizvod::izvod(const std::string &id) const {
     // xy = x'y + xy'
     return new Zbir(
-        new Proizvod(_levi->izvod(prom), _desni->kopija()),
-        new Proizvod(_levi->kopija(), _desni->izvod(prom))
+        new Proizvod(_levi->izvod(id), _desni->kopija()),
+        new Proizvod(_levi->kopija(), _desni->izvod(id))
     );
 }
 

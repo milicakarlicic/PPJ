@@ -6,9 +6,6 @@
 #include <cmath>
 
 class KompleksanBroj {
-private:
-    double _realni;
-    double _imaginarni;
 public:
     // klasa nema pokazivacko polje pa su dovoljni podrazumevani destruktor, konstruktor kopije i operator =
     KompleksanBroj(double realni = 0, double imaginarni = 0);
@@ -18,11 +15,12 @@ public:
 
     KompleksanBroj operator + (const KompleksanBroj &z) const;
     KompleksanBroj operator / (const KompleksanBroj &z) const;
-    
     // postfiksni i prefiksni operator inkrementiranja (dekrementiranja) se 
     // razlikuju po tome sto postfiksni ima fiktivni argument int: operator++ (int)
-
     bool operator == (const KompleksanBroj &z) const;
+private:
+    double _realni;
+    double _imaginarni;
 };
 
 std::ostream& operator << (std::ostream &izlaz, const KompleksanBroj &z);

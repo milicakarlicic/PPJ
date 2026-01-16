@@ -52,7 +52,7 @@ void DinamickiNiz::dodajNaKraj(double element) {
     _elementi[_velicina++] = element;
 }
 
-void DinamickiNiz::ispisi(ostream &izlaz) const {
+void DinamickiNiz::ispisi(std::ostream &izlaz) const {
     izlaz << "[ ";
     for (int i = 0; i < _velicina; i++) {
         izlaz << _elementi[i] << " ";
@@ -74,7 +74,7 @@ const double& DinamickiNiz::operator[] (int indeks) const {
     return _elementi[indeks];
 }
 
-ostream& operator << (ostream &izlaz, const DinamickiNiz &niz) {
+std::ostream& operator << (std::ostream &izlaz, const DinamickiNiz &niz) {
     niz.ispisi(izlaz);
     return izlaz;
 }

@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 #define KAPACITET               (3)
 #define UVECANJE_KAPACITETA     (2)
 
@@ -25,9 +23,9 @@ public:
     double& operator[] (int indeks);
     const double& operator[] (int indeks) const;
     void dodajNaKraj(double element);
-    void ispisi(ostream &izlaz) const;
+    void ispisi(std::ostream &izlaz) const;
 };
 
-ostream& operator << (ostream &izlaz, const DinamickiNiz &niz);
+std::ostream& operator << (std::ostream &izlaz, const DinamickiNiz &niz);
 
 #endif
