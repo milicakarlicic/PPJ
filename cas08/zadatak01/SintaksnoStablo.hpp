@@ -65,6 +65,7 @@ public:
     NizNaredbi(const std::vector<ASTCvor*> &naredbe);
     NizNaredbi(const NizNaredbi &n);
     ~NizNaredbi();
+    NizNaredbi& operator = (const NizNaredbi&) = delete;
 
     void ispisi(std::ostream &izlaz) const;
     void dodajNaredbu(ASTCvor *naredba);
@@ -81,6 +82,7 @@ public:
     BinarniCvor(ASTCvor *levi, ASTCvor *desni);
     BinarniCvor(const BinarniCvor &cvor);
     ~BinarniCvor();
+    BinarniCvor& operator = (const BinarniCvor&) = delete;
 protected:
     ASTCvor *_levi;
     ASTCvor *_desni;
@@ -120,6 +122,7 @@ public:
     UnarniCvor(ASTCvor *operand);
     UnarniCvor(const UnarniCvor &cvor);
     ~UnarniCvor();
+    UnarniCvor& operator = (const UnarniCvor&) = delete;
 protected:
     ASTCvor *_operand;
 };
