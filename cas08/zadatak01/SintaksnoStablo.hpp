@@ -9,9 +9,9 @@
 
 class TablicaSimbola {
 public:
-    void dodajPromenljivu(const std::string &id, double vrednost);
-    double vratiVrednost(const std::string &id) const;
-    bool postojiVrednost(const std::string &id) const;
+    void dodajPromenljivu(const std::string& id, double vrednost);
+    double vratiVrednost(const std::string& id) const;
+    bool postojiVrednost(const std::string& id) const;
 private:
     std::map<std::string, double> _promenljive;
 };
@@ -22,14 +22,14 @@ class ASTCvor {
 public:
     virtual ~ASTCvor() {}
 
-    virtual void ispisi(std::ostream &izlaz) const = 0;
-    virtual double interpretiraj(TablicaSimbola &tablica) const = 0;
+    virtual void ispisi(std::ostream& izlaz) const = 0;
+    virtual double interpretiraj(TablicaSimbola& tablica) const = 0;
     virtual ASTCvor* kopija() const = 0;
 };
 
 /////////////////////////////////////////
 
-std::ostream& operator << (std::ostream &izlaz, const ASTCvor &cvor);
+std::ostream& operator<<(std::ostream& izlaz, const ASTCvor& cvor);
 
 /////////////////////////////////////////
 
@@ -37,8 +37,8 @@ class Konstanta : public ASTCvor {
 public:
     Konstanta(double vrednost);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 private:
     double _vrednost;
@@ -48,10 +48,10 @@ private:
 
 class Promenljiva : public ASTCvor {
 public:
-    Promenljiva(const std::string &id);
+    Promenljiva(const std::string& id);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 private:
     std::string _id;
@@ -62,14 +62,14 @@ private:
 class NizNaredbi : public ASTCvor {
 public:
     NizNaredbi();
-    NizNaredbi(const std::vector<ASTCvor*> &naredbe);
-    NizNaredbi(const NizNaredbi &n);
+    NizNaredbi(const std::vector<ASTCvor*>& naredbe);
+    NizNaredbi(const NizNaredbi& n);
     ~NizNaredbi();
     NizNaredbi& operator = (const NizNaredbi&) = delete;
 
-    void ispisi(std::ostream &izlaz) const;
-    void dodajNaredbu(ASTCvor *naredba);
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    void dodajNaredbu(ASTCvor* naredba);
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 private:
     std::vector<ASTCvor*> _naredbe;
@@ -79,39 +79,39 @@ private:
 
 class BinarniCvor : public ASTCvor {
 public:
-    BinarniCvor(ASTCvor *levi, ASTCvor *desni);
-    BinarniCvor(const BinarniCvor &cvor);
+    BinarniCvor(ASTCvor* levi, ASTCvor* desni);
+    BinarniCvor(const BinarniCvor& cvor);
     ~BinarniCvor();
     BinarniCvor& operator = (const BinarniCvor&) = delete;
 protected:
-    ASTCvor *_levi;
-    ASTCvor *_desni;
+    ASTCvor* _levi;
+    ASTCvor* _desni;
 };
 
-class Zbir : public BinarniCvor {
+class Sabiranje : public BinarniCvor {
 public:
-    Zbir(ASTCvor *levi, ASTCvor *desni);
+    Sabiranje(ASTCvor* levi, ASTCvor* desni);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 };
 
-class Proizvod : public BinarniCvor {
+class Mnozenje : public BinarniCvor {
 public:
-    Proizvod(ASTCvor *levi, ASTCvor *desni);
+    Mnozenje(ASTCvor* levi, ASTCvor* desni);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 };
 
 class Jednako : public BinarniCvor {
 public:
-    Jednako(ASTCvor *levi, ASTCvor *desni);
+    Jednako(ASTCvor* levi, ASTCvor* desni);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 };
 
@@ -119,20 +119,20 @@ public:
 
 class UnarniCvor : public ASTCvor {
 public:
-    UnarniCvor(ASTCvor *operand);
-    UnarniCvor(const UnarniCvor &cvor);
+    UnarniCvor(ASTCvor* operand);
+    UnarniCvor(const UnarniCvor& cvor);
     ~UnarniCvor();
     UnarniCvor& operator = (const UnarniCvor&) = delete;
 protected:
-    ASTCvor *_operand;
+    ASTCvor* _operand;
 };
 
 class Definicija : public UnarniCvor {
 public:
-    Definicija(const std::string &id, ASTCvor *operand);
+    Definicija(const std::string& id, ASTCvor* operand);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 private:
     std::string _id;
@@ -140,10 +140,10 @@ private:
 
 class Dodela : public UnarniCvor {
 public:
-    Dodela(const std::string &id, ASTCvor *operand);
+    Dodela(const std::string& id, ASTCvor* operand);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 private:
     std::string _id;
@@ -151,19 +151,19 @@ private:
 
 class Ispis : public UnarniCvor {
 public:
-    Ispis(ASTCvor *operand);
+    Ispis(ASTCvor* operand);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 };
 
 class Negacija : public UnarniCvor {
 public:
-    Negacija(ASTCvor *operand);
+    Negacija(ASTCvor* operand);
 
-    void ispisi(std::ostream &izlaz) const;
-    double interpretiraj(TablicaSimbola &tablica) const;
+    void ispisi(std::ostream& izlaz) const;
+    double interpretiraj(TablicaSimbola& tablica) const;
     ASTCvor* kopija() const;
 };
 

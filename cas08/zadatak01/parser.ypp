@@ -5,12 +5,12 @@
 
     extern int yylex();
 
-    void yyerror(const std::string &poruka) {
+    void yyerror(const std::string& poruka) {
         std::cerr << poruka << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    ASTCvor *koren = nullptr;
+    ASTCvor* koren = nullptr;
 
     TablicaSimbola tablica;
 %}
@@ -22,9 +22,9 @@
 %type<c> izraz naredba niz_naredbi
 
 %union {
-    ASTCvor *c;
+    ASTCvor* c;
     double d;
-    std::string *s;
+    std::string* s;
 }
 
 %left JEDNAKO
@@ -40,14 +40,14 @@ program: niz_naredbi {
 ;
 
 niz_naredbi: niz_naredbi naredba ';' {
-    NizNaredbi *niz = dynamic_cast<NizNaredbi*>($1);
+    NizNaredbi* niz = dynamic_cast<NizNaredbi*>($1);
     niz->dodajNaredbu($2);
     $$ = niz;
 }
 | naredba ';' {
     // niz_naredbi => niz_naredbi naredba ';' =>
     // naredba ; naredba ;
-    NizNaredbi *niz = new NizNaredbi();
+    NizNaredbi* niz = new NizNaredbi();
     niz->dodajNaredbu($1);
     $$ = niz;
 }
@@ -70,10 +70,10 @@ naredba: DEF ID '=' izraz {
 ;
 
 izraz: izraz '+' izraz {
-    $$ = new Zbir($1, $3);
+    $$ = new Sabiranje($1, $3);
 }
 | izraz '*' izraz {
-    $$ = new Proizvod($1, $3);
+    $$ = new Mnozenje($1, $3);
 }
 | '-' izraz %prec UN_MINUS {
     $$ = new Negacija($2);

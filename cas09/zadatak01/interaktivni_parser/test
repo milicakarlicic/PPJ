@@ -1,0 +1,12 @@
+f = sin(x)
+f               // ispisuje funkciju f
+f[3.14]            // ispise f za x = 3.14
+f = 1 + x
+f
+
+g = 1 + f(x*x)
+g = 2*sin(x) 
+g[-0.5]
+
+g'          // 0*sin(x) + 2*cos(x)
+g'[0.5]

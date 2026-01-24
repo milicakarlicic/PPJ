@@ -2,11 +2,11 @@
 
 //////////////////////////////////////////
 
-void TablicaSimbola::dodajPromenljivu(const std::string &id, double vrednost) {
+void TablicaSimbola::dodajPromenljivu(const std::string& id, double vrednost) {
     _promenljive[id] = vrednost;
 }
 
-double TablicaSimbola::vratiVrednost(const std::string &id) const {
+double TablicaSimbola::vratiVrednost(const std::string& id) const {
     auto it = _promenljive.find(id);
     if (it == _promenljive.end()) {
         throw "promenljiva nije definisana";
@@ -14,13 +14,13 @@ double TablicaSimbola::vratiVrednost(const std::string &id) const {
     return it->second;
 }
 
-bool TablicaSimbola::postojiVrednost(const std::string &id) const {
+bool TablicaSimbola::postojiVrednost(const std::string& id) const {
     return _promenljive.find(id) != _promenljive.end();
 }
 
 //////////////////////////////////////////
 
-std::ostream& operator << (std::ostream &izlaz, const ASTCvor &cvor) {
+std::ostream& operator << (std::ostream& izlaz, const ASTCvor& cvor) {
     cvor.ispisi(izlaz);
     return izlaz;
 }
@@ -30,11 +30,11 @@ std::ostream& operator << (std::ostream &izlaz, const ASTCvor &cvor) {
 Konstanta::Konstanta(double vrednost)
     : _vrednost(vrednost) {}
 
-void Konstanta::ispisi(std::ostream &izlaz) const {
+void Konstanta::ispisi(std::ostream& izlaz) const {
     izlaz << _vrednost;
 }
 
-double Konstanta::interpretiraj(TablicaSimbola &tablica) const {
+double Konstanta::interpretiraj(TablicaSimbola& tablica) const {
     return _vrednost;
 }
 
@@ -44,14 +44,14 @@ ASTCvor* Konstanta::kopija() const {
 
 //////////////////////////////////////////
 
-Promenljiva::Promenljiva(const std::string &id)
+Promenljiva::Promenljiva(const std::string& id)
     : _id(id) {}
 
-void Promenljiva::ispisi(std::ostream &izlaz) const {
+void Promenljiva::ispisi(std::ostream& izlaz) const {
     izlaz << _id;
 }
 
-double Promenljiva::interpretiraj(TablicaSimbola &tablica) const {
+double Promenljiva::interpretiraj(TablicaSimbola& tablica) const {
     double vrednost;
     try {
         vrednost = tablica.vratiVrednost(_id);
@@ -70,33 +70,32 @@ ASTCvor* Promenljiva::kopija() const {
 
 NizNaredbi::NizNaredbi() {}
 
-NizNaredbi::NizNaredbi(const std::vector<ASTCvor*> &naredbe) 
+NizNaredbi::NizNaredbi(const std::vector<ASTCvor*>& naredbe) 
     : _naredbe(naredbe) {}
 
-NizNaredbi::NizNaredbi(const NizNaredbi &n) {
+NizNaredbi::NizNaredbi(const NizNaredbi& n) {
     for (auto it = n._naredbe.begin(); it != n._naredbe.end(); it++) {
         _naredbe.push_back((*it)->kopija());
     }
 }
 
-
 NizNaredbi::~NizNaredbi() {
-    for (ASTCvor *naredba : _naredbe) {
+    for (ASTCvor* naredba : _naredbe) {
         delete naredba;
     }
 }
 
-void NizNaredbi::ispisi(std::ostream &izlaz) const {
+void NizNaredbi::ispisi(std::ostream& izlaz) const {
     for (ASTCvor *naredba : _naredbe) {
         izlaz << *naredba << std::endl;
     }
 }
 
-void NizNaredbi::dodajNaredbu(ASTCvor *naredba) {
+void NizNaredbi::dodajNaredbu(ASTCvor* naredba) {
     _naredbe.push_back(naredba);
 }
 
-double NizNaredbi::interpretiraj(TablicaSimbola &tablica) const {
+double NizNaredbi::interpretiraj(TablicaSimbola& tablica) const {
     for (ASTCvor *naredba : _naredbe) {
         naredba->interpretiraj(tablica);
     }
@@ -109,10 +108,10 @@ ASTCvor* NizNaredbi::kopija() const {
 
 //////////////////////////////////////////
 
-BinarniCvor::BinarniCvor(ASTCvor *levi, ASTCvor *desni)
+BinarniCvor::BinarniCvor(ASTCvor* levi, ASTCvor* desni)
     : _levi(levi), _desni(desni) {}
 
-BinarniCvor::BinarniCvor(const BinarniCvor &cvor) {
+BinarniCvor::BinarniCvor(const BinarniCvor& cvor) {
     _levi = cvor._levi->kopija();
     _desni = cvor._desni->kopija();
 }
@@ -122,44 +121,44 @@ BinarniCvor::~BinarniCvor() {
     delete _desni;
 }
 
-Zbir::Zbir(ASTCvor *levi, ASTCvor *desni)
+Sabiranje::Sabiranje(ASTCvor* levi, ASTCvor* desni)
     : BinarniCvor(levi, desni) {}
 
-void Zbir::ispisi(std::ostream &izlaz) const {
+void Sabiranje::ispisi(std::ostream& izlaz) const {
     izlaz << *_levi << " + " << *_desni;
 }
 
-double Zbir::interpretiraj(TablicaSimbola &tablica) const {
+double Sabiranje::interpretiraj(TablicaSimbola& tablica) const {
     return _levi->interpretiraj(tablica) + _desni->interpretiraj(tablica);
 }
 
-ASTCvor* Zbir::kopija() const {
-    return new Zbir(*this);
+ASTCvor* Sabiranje::kopija() const {
+    return new Sabiranje(*this);
 }
 
-Proizvod::Proizvod(ASTCvor *levi, ASTCvor *desni)
+Mnozenje::Mnozenje(ASTCvor* levi, ASTCvor* desni)
     : BinarniCvor(levi, desni) {}
 
-void Proizvod::ispisi(std::ostream &izlaz) const {
+void Mnozenje::ispisi(std::ostream& izlaz) const {
     izlaz << *_levi << " * " << *_desni;
 }
 
-double Proizvod::interpretiraj(TablicaSimbola &tablica) const {
+double Mnozenje::interpretiraj(TablicaSimbola& tablica) const {
     return _levi->interpretiraj(tablica) * _desni->interpretiraj(tablica);
 }
 
-ASTCvor* Proizvod::kopija() const {
-    return new Proizvod(*this);
+ASTCvor* Mnozenje::kopija() const {
+    return new Mnozenje(*this);
 }
 
-Jednako::Jednako(ASTCvor *levi, ASTCvor *desni)
+Jednako::Jednako(ASTCvor* levi, ASTCvor* desni)
     : BinarniCvor(levi, desni) {}
 
-void Jednako::ispisi(std::ostream &izlaz) const {
+void Jednako::ispisi(std::ostream& izlaz) const {
     izlaz << *_levi << " == " << *_desni;
 }
 
-double Jednako::interpretiraj(TablicaSimbola &tablica) const {
+double Jednako::interpretiraj(TablicaSimbola& tablica) const {
     bool rezultat = _levi->interpretiraj(tablica) == _desni->interpretiraj(tablica);
     std::cout << (rezultat ? "true" : "false") << std::endl;
     return rezultat;
@@ -171,10 +170,10 @@ ASTCvor* Jednako::kopija() const {
 
 ///////////////////////////////////////////
 
-UnarniCvor::UnarniCvor(ASTCvor *operand) 
+UnarniCvor::UnarniCvor(ASTCvor* operand) 
     : _operand(operand) {}
 
-UnarniCvor::UnarniCvor(const UnarniCvor &cvor) {
+UnarniCvor::UnarniCvor(const UnarniCvor& cvor) {
     _operand = cvor._operand->kopija();
 }
 
@@ -183,14 +182,14 @@ UnarniCvor::~UnarniCvor() {
 }
 
 // Definicija
-Definicija::Definicija(const std::string &id, ASTCvor *operand)
+Definicija::Definicija(const std::string& id, ASTCvor* operand)
     : UnarniCvor(operand), _id(id) {}
 
-void Definicija::ispisi(std::ostream &izlaz) const {
+void Definicija::ispisi(std::ostream& izlaz) const {
     izlaz << "def " << _id << " = " << *_operand;
 }
 
-double Definicija::interpretiraj(TablicaSimbola &tablica) const {
+double Definicija::interpretiraj(TablicaSimbola& tablica) const {
     if (tablica.postojiVrednost(_id)) {
         std::cerr << "Promenljiva vec definisana!" << std::endl;
         exit(EXIT_FAILURE);
@@ -205,14 +204,14 @@ ASTCvor* Definicija::kopija() const {
 }
 
 // Dodela
-Dodela::Dodela(const std::string &id, ASTCvor *operand)
+Dodela::Dodela(const std::string& id, ASTCvor* operand)
     : UnarniCvor(operand), _id(id) {}
 
-void Dodela::ispisi(std::ostream &izlaz) const {
+void Dodela::ispisi(std::ostream& izlaz) const {
     izlaz << _id << " = " << *_operand;
 }
 
-double Dodela::interpretiraj(TablicaSimbola &tablica) const {
+double Dodela::interpretiraj(TablicaSimbola& tablica) const {
     if (!tablica.postojiVrednost(_id)) {
         std::cerr << "Promenljiva nije definisana!" << std::endl;
         exit(EXIT_FAILURE);
@@ -227,14 +226,14 @@ ASTCvor* Dodela::kopija() const {
 }
 
 // Ispis
-Ispis::Ispis(ASTCvor *operand)
+Ispis::Ispis(ASTCvor* operand)
     : UnarniCvor(operand) {}
 
-void Ispis::ispisi(std::ostream &izlaz) const {
+void Ispis::ispisi(std::ostream& izlaz) const {
     izlaz << "print(" << *_operand << ")";
 }
 
-double Ispis::interpretiraj(TablicaSimbola &tablica) const {
+double Ispis::interpretiraj(TablicaSimbola& tablica) const {
     std::cout << _operand->interpretiraj(tablica) << std::endl;
 
     return 0;
@@ -245,14 +244,14 @@ ASTCvor* Ispis::kopija() const {
 }
 
 // Negacija
-Negacija::Negacija(ASTCvor *operand)
+Negacija::Negacija(ASTCvor* operand)
     : UnarniCvor(operand) {}
 
-void Negacija::ispisi(std::ostream &izlaz) const {
+void Negacija::ispisi(std::ostream& izlaz) const {
     izlaz << "-" << *_operand;
 }
 
-double Negacija::interpretiraj(TablicaSimbola &tablica) const {
+double Negacija::interpretiraj(TablicaSimbola& tablica) const {
     return - _operand->interpretiraj(tablica);
 }
 

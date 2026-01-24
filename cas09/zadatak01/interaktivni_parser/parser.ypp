@@ -1,0 +1,108 @@
+%{
+    #include <iostream>
+    #include "Funkcije.hpp"
+    #include "TablicaSimbola.hpp"
+
+    #define YYDEBUG         1
+    
+    extern int yylex();
+
+    void yyerror(const std::string& poruka) {
+        std::cerr << poruka << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    TablicaSimbola tablica;
+
+%}
+
+%union {
+    Funkcija* f;
+    double d;
+    std::string* s;
+}
+
+%token SIN PROMENLJIVA
+%token<s> ID 
+%token<d> BROJ
+
+%type<f> funkcija
+
+%left '+'
+%left '*'
+%right '['
+%right '\''
+
+%%
+
+program: niz_naredbi
+    ;
+
+niz_naredbi: niz_naredbi naredba '\n'
+    | naredba '\n'
+    ;
+
+naredba: ID '=' funkcija {
+        tablica.dodajFunkciju(*$1, $3);
+        delete $1;
+    }
+    | funkcija {
+        std::cout << *$1 << std::endl;
+        delete $1;
+    }
+    | 
+    ;
+
+funkcija: SIN '(' funkcija ')' {
+        $$ = new SinFunkcija($3);
+    }
+    | funkcija '[' BROJ ']' {
+        $$ = new KonstantaFunkcija($1->izracunaj($3));
+        // Pravimo novu funkciju tako da staru mozemo da brisemo
+        delete $1;
+    }
+    | funkcija '+' funkcija {
+        $$ = new SabiranjeFunkcija($1, $3);
+    }
+    | funkcija '*' funkcija {
+        $$ = new MnozenjeFunkcija($1, $3);
+    }
+    | funkcija '\'' {
+        $$ = $1->izvod();
+        // Pravimo novu funkciju tako da staru mozemo da brisemo
+        delete $1;
+    }
+    | ID '(' funkcija ')' {
+        Funkcija* f = tablica.vratiFunkciju(*$1);
+        $$ = f->kompozicija($3);
+        delete $1;
+        // Pravimo novu funkciju tako da staru mozemo da brisemo
+        delete $3;
+    }
+    | ID {
+        // Pravimo kopiju da ne bismo obrisali neku funkciju iz mape 
+        $$ = tablica.vratiFunkciju(*$1)->kopija();
+        delete $1;
+    }
+    | 'x' {
+        $$ = new IdentitetFunkcija();
+    }
+    | BROJ {
+        $$ = new KonstantaFunkcija($1);
+    }
+    ;
+
+%%
+
+int main() {
+    //yydebug = 1;
+
+    if (yyparse() == 0) {
+        std::cout << "sve ok" << std::endl;
+    } else {
+        std::cout << "nije ok" << std::endl;
+        return -1;
+    }
+
+    return 0;
+}
