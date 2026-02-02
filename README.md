@@ -14,3 +14,5 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
   - čas09: _Bison_ - sintaksno stablo.
   - čas10: _Bison_ - sintaksno stablo.
   - čas11: Sintaksna analiza naniže. Rekurzivni spust. Potisni automat.
+    _Online_ [alat](https://lab.brainonfire.net/CFG/remove-left-recursion.html) za eliminisanje lijeve rekurzije u gramatici.
+    _Online_ [alat](https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/) za LL(1) gramatike.
