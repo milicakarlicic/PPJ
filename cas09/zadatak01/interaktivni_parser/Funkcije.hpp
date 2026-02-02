@@ -61,7 +61,7 @@ protected:
 
 class SinFunkcija : public UnarnaFunkcija {
 public:
-    SinFunkcija(Funkcija *operand);
+    SinFunkcija(Funkcija* operand);
 
     void ispisi(std::ostream& izlaz) const;
     double izracunaj(double vrednost) const;
@@ -72,7 +72,18 @@ public:
 
 class CosFunkcija : public UnarnaFunkcija {
 public:
-    CosFunkcija(Funkcija *operand);
+    CosFunkcija(Funkcija* operand);
+
+    void ispisi(std::ostream& izlaz) const;
+    double izracunaj(double vrednost) const;
+    Funkcija* kompozicija(Funkcija* f) const;
+    Funkcija* izvod() const;
+    Funkcija* kopija() const;
+};
+
+class UnMinusFunkcija : public UnarnaFunkcija {
+public:
+    UnMinusFunkcija(Funkcija* operand);
 
     void ispisi(std::ostream& izlaz) const;
     double izracunaj(double vrednost) const;
@@ -96,6 +107,17 @@ protected:
 class SabiranjeFunkcija : public BinarnaFunkcija {
 public:
     SabiranjeFunkcija(Funkcija* levi, Funkcija* desni);
+
+    void ispisi(std::ostream& izlaz) const;
+    double izracunaj(double vrednost) const;
+    Funkcija* kompozicija(Funkcija* f) const;
+    Funkcija* izvod() const;
+    Funkcija* kopija() const;
+};
+
+class OduzimanjeFunkcija : public BinarnaFunkcija {
+public:
+    OduzimanjeFunkcija(Funkcija* levi, Funkcija* desni);
 
     void ispisi(std::ostream& izlaz) const;
     double izracunaj(double vrednost) const;

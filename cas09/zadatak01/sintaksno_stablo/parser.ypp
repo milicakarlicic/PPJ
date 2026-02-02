@@ -3,7 +3,7 @@
     #include "SintaksnoStablo.hpp"
     #include "TablicaSimbola.hpp"
 
-    #define YYDEBUG         1
+    #define YYDEBUG         (1)
     
     extern int yylex();
 
@@ -29,10 +29,11 @@
 
 %type<c> niz_naredbi naredba funkcija
 
-%left '+'
+%left '+' '-'
 %left '*'
 %right '['
 %right '\''
+%right UN_MINUS
 
 %%
 
@@ -71,14 +72,23 @@ funkcija: SIN '(' funkcija ')' {
     | funkcija '[' BROJ ']' {
         $$ = new VrednostCvor($1, $3);
     }
+    | funkcija '[' '-' BROJ ']' {
+        $$ = new VrednostCvor($1, -$4);
+    }
     | funkcija '+' funkcija {
         $$ = new SabiranjeCvor($1, $3);
+    }
+    | funkcija '-' funkcija {
+        $$ = new OduzimanjeCvor($1, $3);
     }
     | funkcija '*' funkcija {
         $$ = new MnozenjeCvor($1, $3);
     }
     | funkcija '\'' {
         $$ = new IzvodCvor($1);
+    }
+    | '-' funkcija %prec UN_MINUS {
+        $$ = new UnMinusCvor($2);
     }
     | ID '(' funkcija ')' {
         $$ = new KompozicijaCvor(*$1, $3);

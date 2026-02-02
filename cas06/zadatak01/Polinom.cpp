@@ -8,11 +8,11 @@ Polinom::Polinom(int stepen)
     _koef[stepen] = 1;
 }
 
-Polinom::Polinom(const std::vector<double> &koef) 
+Polinom::Polinom(const std::vector<double>& koef) 
     : _koef(koef) {}
 
 
-void Polinom::ispisi(std::ostream &izlaz) const {
+void Polinom::ispisi(std::ostream& izlaz) const {
     if (_koef.size() == 0) {
         izlaz << "0";
         return;
@@ -41,12 +41,7 @@ void Polinom::dodajKoef(double koef) {
     _koef.push_back(koef);
 }
 
-std::ostream& operator << (std::ostream &izlaz, const Polinom &p) {
-    p.ispisi(izlaz);
-    return izlaz;
-}
-
-Polinom Polinom::operator + (const Polinom& p) const {
+Polinom Polinom::operator+(const Polinom& p) const {
     unsigned stepen = std::max(getStepen(), p.getStepen());
     std::vector<double> rezultat(stepen + 1);
     
@@ -66,7 +61,7 @@ Polinom Polinom::operator + (const Polinom& p) const {
     return Polinom(rezultat);
 }
 
-Polinom Polinom::operator - (const Polinom& p) const {
+Polinom Polinom::operator-(const Polinom& p) const {
     unsigned stepen = std::max(getStepen(), p.getStepen());
     std::vector<double> rezultat(stepen + 1);
 
@@ -86,7 +81,7 @@ Polinom Polinom::operator - (const Polinom& p) const {
     return Polinom(rezultat);
 }
 
-Polinom Polinom::operator * (const Polinom &p) const {
+Polinom Polinom::operator*(const Polinom& p) const {
     std::vector<double> rezultat(getStepen() + p.getStepen() + 1);
 
     for (int i = 0; i <= getStepen(); i++) {
@@ -98,7 +93,7 @@ Polinom Polinom::operator * (const Polinom &p) const {
     return Polinom(rezultat);
 }
 
-Polinom Polinom::operator - () const {
+Polinom Polinom::operator-() const {
     std::vector<double> rezultat(getStepen() + 1);
 
     for(unsigned i = 0; i <= getStepen(); i++) {
@@ -108,7 +103,7 @@ Polinom Polinom::operator - () const {
     return Polinom(rezultat);
 }
 
-double Polinom::operator [] (double x) const {
+double Polinom::operator[](double x) const {
     double vrednost = 0;
     double x_i = 1;
 
@@ -145,7 +140,7 @@ Polinom Polinom::integral(double c) const {
     return Polinom(rezultat);
 }
 
-bool Polinom::operator == (const Polinom &p) const {
+bool Polinom::operator==(const Polinom& p) const {
     if (getStepen() != p.getStepen()) {
         return false;
     }
@@ -159,6 +154,11 @@ bool Polinom::operator == (const Polinom &p) const {
     return true;
 }
 
-bool Polinom::operator != (const Polinom &p) const {
+bool Polinom::operator!=(const Polinom& p) const {
     return !(*this == p);
+}
+
+std::ostream& operator<<(std::ostream& izlaz, const Polinom& p) {
+    p.ispisi(izlaz);
+    return izlaz;
 }

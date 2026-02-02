@@ -8,7 +8,7 @@
 
 class DinamickiNiz {
 private:
-    double *_elementi;
+    double* _elementi;
     int _kapacitet;
     int _velicina;
 public:
@@ -17,15 +17,15 @@ public:
     // moramo ih predefinisati jer podrazumevana implementacija brise/kopira vrednost pokazivaca
     // a ne ono na sta pokazuje 
     ~DinamickiNiz();
-    DinamickiNiz(const DinamickiNiz &niz);
-    DinamickiNiz& operator = (const DinamickiNiz &niz);
+    DinamickiNiz(const DinamickiNiz& niz);
+    DinamickiNiz& operator=(const DinamickiNiz& niz);
 
-    double& operator[] (int indeks);
-    const double& operator[] (int indeks) const;
+    double& operator[](int indeks);
+    const double& operator[](int indeks) const;
     void dodajNaKraj(double element);
-    void ispisi(std::ostream &izlaz) const;
+    void ispisi(std::ostream& izlaz) const;
 };
 
-std::ostream& operator << (std::ostream &izlaz, const DinamickiNiz &niz);
+std::ostream& operator<<(std::ostream& izlaz, const DinamickiNiz& niz);
 
 #endif

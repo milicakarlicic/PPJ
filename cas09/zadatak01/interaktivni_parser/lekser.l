@@ -11,14 +11,14 @@
 
 "sin"                   { return SIN; }
 
-[x=+*()\[\]\n']         { return *yytext; }
+[x=+*()\[\]\n'-]        { return *yytext; }
 
 [a-zA-Z_][a-zA-Z_0-9]*  { 
     yylval.s = new std::string(yytext);
     return ID; 
 }
 
--?[0-9]+([.][0-9]+)?    { 
+[0-9]+([.][0-9]+)?      { 
     yylval.d = atof(yytext);
     return BROJ; 
 }

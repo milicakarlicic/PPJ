@@ -5,7 +5,7 @@ DinamickiNiz::DinamickiNiz(int kapacitet)
     _elementi = new double[_kapacitet];
 }
 
-DinamickiNiz::DinamickiNiz(const DinamickiNiz &niz) {
+DinamickiNiz::DinamickiNiz(const DinamickiNiz& niz) {
     _kapacitet = niz._kapacitet;
     _velicina = niz._velicina;
     _elementi = new double[_kapacitet];
@@ -15,7 +15,7 @@ DinamickiNiz::DinamickiNiz(const DinamickiNiz &niz) {
     }
 }
 
-DinamickiNiz& DinamickiNiz::operator = (const DinamickiNiz &niz) {
+DinamickiNiz& DinamickiNiz::operator=(const DinamickiNiz& niz) {
     if (this == &niz) {
         return *this;
     }
@@ -52,7 +52,7 @@ void DinamickiNiz::dodajNaKraj(double element) {
     _elementi[_velicina++] = element;
 }
 
-void DinamickiNiz::ispisi(std::ostream &izlaz) const {
+void DinamickiNiz::ispisi(std::ostream& izlaz) const {
     izlaz << "[ ";
     for (int i = 0; i < _velicina; i++) {
         izlaz << _elementi[i] << " ";
@@ -60,21 +60,21 @@ void DinamickiNiz::ispisi(std::ostream &izlaz) const {
     izlaz << "]";
 }
 
-double& DinamickiNiz::operator[] (int indeks) {
+double& DinamickiNiz::operator[](int indeks) {
     if (indeks >= _velicina || indeks < 0) {
         throw "Nevalidan indeks!";
     }
     return _elementi[indeks];
 }
 
-const double& DinamickiNiz::operator[] (int indeks) const {
+const double& DinamickiNiz::operator[](int indeks) const {
     if (indeks >= _velicina || indeks < 0) {
         throw "Nevalidan indeks!";
     }
     return _elementi[indeks];
 }
 
-std::ostream& operator << (std::ostream &izlaz, const DinamickiNiz &niz) {
+std::ostream& operator<<(std::ostream& izlaz, const DinamickiNiz& niz) {
     niz.ispisi(izlaz);
     return izlaz;
 }

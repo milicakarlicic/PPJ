@@ -188,6 +188,17 @@ Funkcija* CosCvor::interpretiraj(TablicaSimbola& tablica) const {
     return new CosFunkcija(_operand->interpretiraj(tablica));
 }
 
+UnMinusCvor::UnMinusCvor(ASTCvor *operand)
+    : UnarniCvor(operand) {}
+
+void UnMinusCvor::ispisi(std::ostream& izlaz) const {
+    izlaz << "-(" << *_operand << ")";
+}
+
+Funkcija* UnMinusCvor::interpretiraj(TablicaSimbola& tablica) const {
+    return new UnMinusFunkcija(_operand->interpretiraj(tablica));
+}
+
 //////////////////////////////////////////////////////////////
 
 BinarniCvor::BinarniCvor(ASTCvor *levi, ASTCvor *desni)
@@ -207,6 +218,17 @@ void SabiranjeCvor::ispisi(std::ostream& izlaz) const {
 
 Funkcija* SabiranjeCvor::interpretiraj(TablicaSimbola& tablica) const {
     return new SabiranjeFunkcija(_levi->interpretiraj(tablica), _desni->interpretiraj(tablica));
+}
+
+OduzimanjeCvor::OduzimanjeCvor(ASTCvor *levi, ASTCvor *desni)
+    : BinarniCvor(levi, desni) {}
+
+void OduzimanjeCvor::ispisi(std::ostream& izlaz) const {
+    izlaz << "(" << *_levi << ") - (" << *_desni << ")";
+}
+
+Funkcija* OduzimanjeCvor::interpretiraj(TablicaSimbola& tablica) const {
+    return new OduzimanjeFunkcija(_levi->interpretiraj(tablica), _desni->interpretiraj(tablica));
 }
 
 MnozenjeCvor::MnozenjeCvor(ASTCvor *levi, ASTCvor *desni)

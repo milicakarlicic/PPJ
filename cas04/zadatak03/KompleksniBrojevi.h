@@ -13,18 +13,18 @@ public:
     void ispisi(std::ostream &izlaz) const;
     void ucitaj(std::istream &ulaz);
 
-    KompleksanBroj operator + (const KompleksanBroj &z) const;
-    KompleksanBroj operator / (const KompleksanBroj &z) const;
+    KompleksanBroj operator+(const KompleksanBroj &z) const;
+    KompleksanBroj operator/(const KompleksanBroj &z) const;
     // postfiksni i prefiksni operator inkrementiranja (dekrementiranja) se 
     // razlikuju po tome sto postfiksni ima fiktivni argument int: operator++ (int)
-    bool operator == (const KompleksanBroj &z) const;
+    bool operator==(const KompleksanBroj &z) const;
 private:
     double _realni;
     double _imaginarni;
 };
 
-std::ostream& operator << (std::ostream &izlaz, const KompleksanBroj &z);
-std::istream& operator >> (std::istream &ulaz, KompleksanBroj &z);
+std::ostream& operator<<(std::ostream &izlaz, const KompleksanBroj &z);
+std::istream& operator>>(std::istream &ulaz, KompleksanBroj &z);
 
 #endif
 

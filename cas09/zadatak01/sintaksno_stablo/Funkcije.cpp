@@ -71,7 +71,7 @@ UnarnaFunkcija::~UnarnaFunkcija() {
     delete _operand;
 }
 
-SinFunkcija::SinFunkcija(Funkcija *operand)
+SinFunkcija::SinFunkcija(Funkcija* operand)
     : UnarnaFunkcija(operand) {}
 
 void SinFunkcija::ispisi(std::ostream& izlaz) const {
@@ -97,7 +97,7 @@ Funkcija* SinFunkcija::kopija() const {
     return new SinFunkcija(*this);
 }
 
-CosFunkcija::CosFunkcija(Funkcija *operand)
+CosFunkcija::CosFunkcija(Funkcija* operand)
     : UnarnaFunkcija(operand) {}
 
 void CosFunkcija::ispisi(std::ostream& izlaz) const {
@@ -124,6 +124,29 @@ Funkcija* CosFunkcija::izvod() const {
 
 Funkcija* CosFunkcija::kopija() const {
     return new CosFunkcija(*this);
+}
+
+UnMinusFunkcija::UnMinusFunkcija(Funkcija* operand)
+    : UnarnaFunkcija(operand) {}
+
+void UnMinusFunkcija::ispisi(std::ostream& izlaz) const {
+    izlaz << "- (" << *_operand << ")";
+}
+
+double UnMinusFunkcija::izracunaj(double vrednost) const {
+    return -_operand->izracunaj(vrednost);
+}
+
+Funkcija* UnMinusFunkcija::kompozicija(Funkcija* f) const {
+    return new UnMinusFunkcija(_operand->kompozicija(f)); // f(x)=-x // f(x^2)
+}
+
+Funkcija* UnMinusFunkcija::izvod() const {
+    return new UnMinusFunkcija(_operand->izvod());
+}
+
+Funkcija* UnMinusFunkcija::kopija() const {
+    return new UnMinusFunkcija(*this);
 }
 
 ////////////////////////////////////////
@@ -162,6 +185,29 @@ Funkcija* SabiranjeFunkcija::izvod() const {
 
 Funkcija* SabiranjeFunkcija::kopija() const {
     return new SabiranjeFunkcija(*this);
+}
+
+OduzimanjeFunkcija::OduzimanjeFunkcija(Funkcija* levi, Funkcija* desni)
+    : BinarnaFunkcija(levi, desni) {}
+
+void OduzimanjeFunkcija::ispisi(std::ostream& izlaz) const {
+    izlaz << "(" << *_levi << ") - (" << *_desni << ")";
+}
+
+double OduzimanjeFunkcija::izracunaj(double vrednost) const {
+    return _levi->izracunaj(vrednost) - _desni->izracunaj(vrednost);
+}
+
+Funkcija* OduzimanjeFunkcija::kompozicija(Funkcija* f) const {
+    return new OduzimanjeFunkcija(_levi->kompozicija(f), _desni->kompozicija(f));
+}
+
+Funkcija* OduzimanjeFunkcija::izvod() const {
+    return new OduzimanjeFunkcija(_levi->izvod(), _desni->izvod());
+}
+
+Funkcija* OduzimanjeFunkcija::kopija() const {
+    return new OduzimanjeFunkcija(*this);
 }
 
 MnozenjeFunkcija::MnozenjeFunkcija(Funkcija* levi, Funkcija* desni)

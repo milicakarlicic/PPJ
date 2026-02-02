@@ -9,8 +9,8 @@ int main() {
     t.dodajPromenljivu("y", -1);
 
     // 1 * x + sin(0)
-    Izraz *i = new Zbir(
-        new Proizvod(new Konstanta(1), new Promenljiva("x")),
+    Izraz *i = new Sabiranje(
+        new Mnozenje(new Konstanta(1), new Promenljiva("x")),
         new Sinus(new Konstanta(0))
     );
     Izraz *izvod_i = i->izvod("x");

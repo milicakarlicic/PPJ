@@ -10,7 +10,7 @@ bool TablicaSimbola::postojiFunkcija(const std::string& id) const {
     return _funkcije.find(id) != _funkcije.end();
 }
 
-void TablicaSimbola::dodajFunkciju(const std::string& id, Funkcija *f) {
+void TablicaSimbola::dodajFunkciju(const std::string& id, Funkcija* f) {
     if (postojiFunkcija(id)) {
         auto it = _funkcije.find(id);
         delete it->second;

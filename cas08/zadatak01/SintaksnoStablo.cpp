@@ -20,7 +20,7 @@ bool TablicaSimbola::postojiVrednost(const std::string& id) const {
 
 //////////////////////////////////////////
 
-std::ostream& operator << (std::ostream& izlaz, const ASTCvor& cvor) {
+std::ostream& operator<<(std::ostream& izlaz, const ASTCvor& cvor) {
     cvor.ispisi(izlaz);
     return izlaz;
 }

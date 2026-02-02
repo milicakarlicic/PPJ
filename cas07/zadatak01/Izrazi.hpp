@@ -11,9 +11,9 @@ class TablicaSimbola {
 private:
     std::map<std::string, double> _promenljive;
 public:
-    bool dodajPromenljivu(const std::string &id, double vrednost);
-    bool definisanaPromenljiva(const std::string &id) const;
-    double vrednostPromenljive(const std::string &id) const;
+    bool dodajPromenljivu(const std::string& id, double vrednost);
+    bool definisanaPromenljiva(const std::string& id) const;
+    double vrednostPromenljive(const std::string& id) const;
 };
 
 ////////////////////////////////////////////////
@@ -22,15 +22,15 @@ class Izraz {
 public:
     virtual ~Izraz() {}
     
-    virtual void ispis(std::ostream &izlaz) const = 0;
-    virtual double izracunaj(const TablicaSimbola &t) const = 0;
-    virtual Izraz* izvod(const std::string &id) const = 0;
+    virtual void ispis(std::ostream& izlaz) const = 0;
+    virtual double izracunaj(const TablicaSimbola& t) const = 0;
+    virtual Izraz* izvod(const std::string& id) const = 0;
     virtual Izraz* kopija() const = 0;
 };
 
 ////////////////////////////////////////////////
 
-std::ostream& operator << (std::ostream &izlaz, const Izraz &i);
+std::ostream& operator<<(std::ostream& izlaz, const Izraz& i);
 
 ////////////////////////////////////////////////
 
@@ -39,9 +39,9 @@ public:
     Konstanta(double vrednost)
         : _vrednost(vrednost) {}
 
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 private:
     double _vrednost;
@@ -49,12 +49,12 @@ private:
 
 class Promenljiva : public Izraz {
 public:
-    Promenljiva(const std::string &id)
+    Promenljiva(const std::string& id)
         : _id(id) {}
 
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 private:
     std::string _id;
@@ -64,38 +64,38 @@ private:
 
 class UnarniIzraz : public Izraz {
 public:
-    UnarniIzraz(Izraz *operand)
+    UnarniIzraz(Izraz* operand)
         : _operand(operand) {}
-    UnarniIzraz(const UnarniIzraz &izraz) 
+    UnarniIzraz(const UnarniIzraz& izraz) 
         : _operand(izraz._operand->kopija()) {}
     ~UnarniIzraz() {
         delete _operand;
     }
     // Zabrana koriscenja operatora dodele jer ga nismo definisali a podrazumevani nam ne odgovara
-    UnarniIzraz& operator = (const UnarniIzraz&) = delete;
+    UnarniIzraz& operator=(const UnarniIzraz&) = delete;
 protected:
     Izraz *_operand;
 };
 
 class Sinus : public UnarniIzraz {
 public:
-    Sinus(Izraz *operand)
+    Sinus(Izraz* operand)
         : UnarniIzraz(operand) {}
 
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 };
 
 class Kosinus : public UnarniIzraz {
 public:
-    Kosinus(Izraz *operand)
+    Kosinus(Izraz* operand)
         : UnarniIzraz(operand) {}
 
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 };
 
@@ -103,40 +103,40 @@ public:
 
 class BinarniIzraz : public Izraz {
 public:
-    BinarniIzraz(Izraz *levi, Izraz *desni) 
+    BinarniIzraz(Izraz* levi, Izraz* desni) 
         : _levi(levi), _desni(desni) {}
-    BinarniIzraz(const BinarniIzraz &izraz) 
+    BinarniIzraz(const BinarniIzraz& izraz) 
         : _levi(izraz._levi->kopija()), _desni(izraz._desni->kopija()) {}
     ~BinarniIzraz() {
         delete _levi;
         delete _desni;
     }
     // Zabrana koriscenja operatora dodele jer ga nismo definisali a podrazumevani nam ne odgovara
-    BinarniIzraz& operator = (const BinarniIzraz&) = delete;
+    BinarniIzraz& operator=(const BinarniIzraz&) = delete;
 protected:
-    Izraz *_levi;
-    Izraz *_desni;
+    Izraz* _levi;
+    Izraz* _desni;
 };
 
-class Zbir : public BinarniIzraz {
+class Sabiranje : public BinarniIzraz {
 public:
-    Zbir(Izraz *levi, Izraz *desni)
+    Sabiranje(Izraz* levi, Izraz* desni)
         : BinarniIzraz(levi, desni) {}
 
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 };
 
-class Proizvod : public BinarniIzraz {
+class Mnozenje : public BinarniIzraz {
 public:
-    Proizvod(Izraz *levi, Izraz *desni)
+    Mnozenje(Izraz* levi, Izraz* desni)
         : BinarniIzraz(levi, desni) {}
         
-    void ispis(std::ostream &izlaz) const;
-    double izracunaj(const TablicaSimbola &t) const;
-    Izraz* izvod(const std::string &prom) const;
+    void ispis(std::ostream& izlaz) const;
+    double izracunaj(const TablicaSimbola& t) const;
+    Izraz* izvod(const std::string& prom) const;
     Izraz* kopija() const;
 };
  

@@ -26,10 +26,9 @@
 %right '['
 %right '\''
 
+%token POLY PRINT DEG JEDNAKO RAZLICITO INT
 %token<d> BROJ
 %token<s> ID
-%token POLY 
-%token PRINT DEG JEDNAKO RAZLICITO INT
 
 %type<v> niz_brojeva
 %type<p> polinom
@@ -46,129 +45,129 @@
 %%
 
 niz_naredbi: niz_naredbi naredba ';'
-| naredba ';'
-;
+    | naredba ';'
+    ;
 
 naredba: POLY ID '=' polinom {
-    auto it = promenljive.find(*$2);
-    if (it != promenljive.end()) {
-        yyerror("Promenljiva vec definisana!");
+        auto it = promenljive.find(*$2);
+        if (it != promenljive.end()) {
+            yyerror("Promenljiva vec definisana!");
+        }
+        promenljive[*$2] = *$4;
+        delete $2; 
+        delete $4;
     }
-    promenljive[*$2] = *$4;
-    delete $2; 
-    delete $4;
-}
-| POLY ID {
-    auto it = promenljive.find(*$2);
-    if (it != promenljive.end()) {
-        yyerror("Promenljiva vec definisana!");
+    | POLY ID {
+        auto it = promenljive.find(*$2);
+        if (it != promenljive.end()) {
+            yyerror("Promenljiva vec definisana!");
+        }
+        promenljive[*$2] = Polinom();
+        delete $2;
     }
-    promenljive[*$2] = Polinom();
-    delete $2;
-}
-| POLY ID '(' BROJ ')' {
-    auto it = promenljive.find(*$2);
-    if (it != promenljive.end()) {
-        yyerror("Promenljiva vec definisana!");
+    | POLY ID '(' BROJ ')' {
+        auto it = promenljive.find(*$2);
+        if (it != promenljive.end()) {
+            yyerror("Promenljiva vec definisana!");
+        }
+        promenljive[*$2] = Polinom($4);
+        delete $2;
     }
-    promenljive[*$2] = Polinom($4);
-    delete $2;
-}
-| PRINT '(' polinom ')' {
-    cout << *$3 << endl;
-    delete $3;
-}
-| ID '=' polinom {
-    // provera
-    promenljive[*$1] = *$3;
-    delete $1; 
-    delete $3;
-}
-| logicka_naredba {
-    if ($1) {
-        cout << "true" << endl;
-    } else {
-        cout << "false" << endl;
+    | PRINT '(' polinom ')' {
+        cout << *$3 << endl;
+        delete $3;
     }
-}
-;
+    | ID '=' polinom {
+        // provera
+        promenljive[*$1] = *$3;
+        delete $1; 
+        delete $3;
+    }
+    | logicka_naredba {
+        if ($1) {
+            cout << "true" << endl;
+        } else {
+            cout << "false" << endl;
+        }
+    }
+    ;
 
 logicka_naredba: polinom JEDNAKO polinom {
-    $$ = *$1 == *$3;
-    delete $1;
-    delete $3;
-}
-| polinom RAZLICITO polinom {
-    $$ = *$1 != *$3;
-    delete $1;
-    delete $3;
-}
-;
+        $$ = *$1 == *$3;
+        delete $1;
+        delete $3;
+    }
+    | polinom RAZLICITO polinom {
+        $$ = *$1 != *$3;
+        delete $1;
+        delete $3;
+    }
+    ;
 
 polinom: polinom '\'' { 
-    $$ = new Polinom($1->izvod());
-    delete $1;
-}
-| INT '(' polinom ',' BROJ ')' {
-    $$ = new Polinom($3->integral($5));
-    delete $3;
-}
-| polinom '+' polinom {
-    $$ = new Polinom(*$1 + *$3);
-    delete $1; 
-    delete $3;
-}
-| polinom '-' polinom {
-    $$ = new Polinom(*$1 - *$3);
-    delete $1; 
-    delete $3;
-}
-| polinom '*' polinom {
-    $$ = new Polinom(*$1 * *$3);
-    delete $1; 
-    delete $3;
-}
-| '-' polinom %prec UN_MINUS {
-    $$ = new Polinom(-(*$2));
-    delete $2;
-}  
-| polinom '[' BROJ ']' {
-    $$ = new Polinom();
-    $$->dodajKoef((*$1)[$3]);
-    delete $1;
-}
-| BROJ {
-    $$ = new Polinom();
-    $$->dodajKoef($1);
-}
-| DEG '(' polinom ')'{
-    $$ = new Polinom();
-    $$->dodajKoef($3->getStepen());
-    delete $3;
-}
-| '<' niz_brojeva '>' {
-    $$ = new Polinom(*$2);
-    delete $2;
-}
-| ID {
-    auto it = promenljive.find(*$1);
-    delete $1;
-    if (it == promenljive.end()) {
-        yyerror("Promenljiva nije definisana!");
+        $$ = new Polinom($1->izvod());
+        delete $1;
     }
-    $$ = new Polinom(it->second);
-}
-;
+    | INT '(' polinom ',' BROJ ')' {
+        $$ = new Polinom($3->integral($5));
+        delete $3;
+    }
+    | polinom '+' polinom {
+        $$ = new Polinom(*$1 + *$3);
+        delete $1; 
+        delete $3;
+    }
+    | polinom '-' polinom {
+        $$ = new Polinom(*$1 - *$3);
+        delete $1; 
+        delete $3;
+    }
+    | polinom '*' polinom {
+        $$ = new Polinom(*$1 * *$3);
+        delete $1; 
+        delete $3;
+    }
+    | '-' polinom %prec UN_MINUS {
+        $$ = new Polinom(-(*$2));
+        delete $2;
+    }  
+    | polinom '[' BROJ ']' {
+        $$ = new Polinom();
+        $$->dodajKoef((*$1)[$3]);
+        delete $1;
+    }
+    | BROJ {
+        $$ = new Polinom();
+        $$->dodajKoef($1);
+    }
+    | DEG '(' polinom ')'{
+        $$ = new Polinom();
+        $$->dodajKoef($3->getStepen());
+        delete $3;
+    }
+    | '<' niz_brojeva '>' {
+        $$ = new Polinom(*$2);
+        delete $2;
+    }
+    | ID {
+        auto it = promenljive.find(*$1);
+        delete $1;
+        if (it == promenljive.end()) {
+            yyerror("Promenljiva nije definisana!");
+        }
+        $$ = new Polinom(it->second);
+    }
+    ;
 
 niz_brojeva: niz_brojeva ',' BROJ { 
-    $$ = $1;
-    $$->push_back($3);
-}
-| BROJ {
-    $$ = new vector<double>();
-    $$->push_back($1);
-}
-;
+        $$ = $1;
+        $$->push_back($3);
+    }
+    | BROJ {
+        $$ = new vector<double>();
+        $$->push_back($1);
+    }
+    ;
 
 %%
 

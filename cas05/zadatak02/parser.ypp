@@ -9,7 +9,7 @@
 
     extern int yylex();
 
-    void yyerror(const string &poruka) {
+    void yyerror(const string& poruka) {
         cerr << poruka << endl;
         exit(EXIT_FAILURE);
     }
@@ -20,7 +20,7 @@
 // promena tipa atributa yylval u tip unija (podrazumevano int)
 %union {
     int i;
-    string *s;
+    string* s;
     bool b;
 }
 

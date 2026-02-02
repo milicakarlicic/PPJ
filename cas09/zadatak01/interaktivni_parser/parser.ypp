@@ -28,10 +28,11 @@
 
 %type<f> funkcija
 
-%left '+'
+%left '+' '-'
 %left '*'
 %right '['
 %right '\''
+%right UN_MINUS
 
 %%
 
@@ -61,11 +62,22 @@ funkcija: SIN '(' funkcija ')' {
         // Pravimo novu funkciju tako da staru mozemo da brisemo
         delete $1;
     }
+    | funkcija '[' '-' BROJ ']' {
+        $$ = new KonstantaFunkcija($1->izracunaj(-$4));
+        // Pravimo novu funkciju tako da staru mozemo da brisemo
+        delete $1;
+    }
     | funkcija '+' funkcija {
         $$ = new SabiranjeFunkcija($1, $3);
     }
+    | funkcija '-' funkcija {
+        $$ = new OduzimanjeFunkcija($1, $3);
+    }
     | funkcija '*' funkcija {
         $$ = new MnozenjeFunkcija($1, $3);
+    }
+    | '-' funkcija %prec UN_MINUS {
+        $$ = new UnMinusFunkcija($2);
     }
     | funkcija '\'' {
         $$ = $1->izvod();

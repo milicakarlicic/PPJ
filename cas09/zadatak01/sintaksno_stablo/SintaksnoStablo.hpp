@@ -136,6 +136,14 @@ private:
     std::string _id;
 };
 
+class UnMinusCvor : public UnarniCvor {
+public:
+    UnMinusCvor(ASTCvor* operand);
+
+    void ispisi(std::ostream& izlaz) const;
+    Funkcija* interpretiraj(TablicaSimbola& tablica) const;
+};
+
 class IzvodCvor : public UnarniCvor {
 public:
     IzvodCvor(ASTCvor* operand);
@@ -168,6 +176,14 @@ protected:
 class SabiranjeCvor : public BinarniCvor {
 public:
     SabiranjeCvor(ASTCvor* levi, ASTCvor* desni);
+
+    void ispisi(std::ostream& izlaz) const;
+    Funkcija* interpretiraj(TablicaSimbola& tablica) const;
+};
+
+class OduzimanjeCvor : public BinarniCvor {
+public:
+    OduzimanjeCvor(ASTCvor* levi, ASTCvor* desni);
 
     void ispisi(std::ostream& izlaz) const;
     Funkcija* interpretiraj(TablicaSimbola& tablica) const;
