@@ -1,0 +1,126 @@
+%{
+    #include <iostream>
+    #include "TablicaSimbola.hpp"
+    #include "SintaksnoStablo.hpp"
+    
+    extern int yylex();
+
+    void yyerror(const std::string& poruka) {
+        std::cerr << poruka << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    ASTCvor* koren = nullptr;
+    TablicaSimbola tablica;
+%}
+
+%union {
+    ASTCvor* c;
+    std::string* s;
+    int i;
+}
+
+%token BEGIN_T WHILE_T END_T DODELA_T JEDNAKO_T
+%token PRINT_T DO_T IF_T ELSE_T THEN_T
+%token<s> ID_T
+%token<i> BROJ_T
+
+%type<c> naredba niz_naredbi blok izraz uslov program
+
+%left '+' '-'
+%nonassoc IF_NO_ELSE_T
+%nonassoc ELSE_T
+
+%%
+
+program: BEGIN_T niz_naredbi END_T '.' {
+        $$ = new ProgramCvor($2);
+        koren = $$;
+        koren->interpretiraj(tablica);
+    }
+    ;
+
+niz_naredbi: niz_naredbi naredba {
+        NizNaredbiCvor* niz = dynamic_cast<NizNaredbiCvor*>($1);
+        if (niz == nullptr) {
+            yyerror("Nije niz naredbi");
+        }
+        niz->dodajNaredbu($2);
+        $$ = niz; 
+    }
+    | naredba {
+        NizNaredbiCvor* niz = new NizNaredbiCvor();
+        niz->dodajNaredbu($1);
+        $$ = niz;
+    }
+    ;
+
+naredba: ID_T DODELA_T izraz ';' {
+        $$ = new DodelaCvor(*$1, $3);
+        delete $1;
+    }
+    | PRINT_T '(' izraz ')' ';' {
+        $$ = new IspisCvor($3);
+    }
+    | WHILE_T uslov DO_T blok {
+        $$ = new WhileCvor($2, $4);
+    }
+    | IF_T uslov THEN_T blok %prec IF_NO_ELSE_T {
+        $$ = new IfCvor($2, $4);
+    }
+    | IF_T uslov THEN_T blok ELSE_T blok {
+        $$ = new IfElseCvor($2, $4, $6);
+    }
+    ;
+
+blok: BEGIN_T niz_naredbi END_T {
+        $$ = new BlokCvor($2, true);
+    }
+    | naredba {
+        $$ = new BlokCvor($1, false);
+    }
+    ;
+
+uslov: izraz '>' izraz {
+        $$ = new VeceCvor($1, $3);
+    }
+    | izraz '<' izraz {
+        $$ = new ManjeCvor($1, $3);
+    }
+    | izraz JEDNAKO_T izraz {
+        $$ = new JednakoCvor($1, $3);
+    }
+    ;
+
+izraz: izraz '+' izraz {
+        $$ = new SabiranjeCvor($1, $3);
+    }
+    | izraz '-' izraz {
+        $$ = new OduzimanjeCvor($1, $3);
+    }
+    | ID_T {
+        $$ = new PromenljivaCvor(*$1);
+        delete $1;
+    }
+    | BROJ_T {
+        $$ = new KonstantaCvor($1);
+    }
+    ;
+
+%%
+
+int main() {
+    if (yyparse() == 0) {
+        std::cout << "sve ok" << std::endl;
+    } else {
+        std::cout << "nije ok" << std::endl;
+        return -1;
+    }
+
+    std::cout << "============================" << std::endl;
+    std::cout << *koren << std::endl;
+
+    delete koren;
+
+    return 0;
+}

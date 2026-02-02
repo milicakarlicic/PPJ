@@ -1,0 +1,20 @@
+begin
+    x := 0; 
+    while x < 5 do
+        begin
+            print(x);
+            x := x + 1;
+        end
+    
+    while x > 0 do 
+        x := x - 1;
+
+    if x < 5 then
+        print(x);
+
+    if x > 5 then
+        print(x);
+    else
+        print(x - 10);
+
+end.
