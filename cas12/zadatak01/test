@@ -1,0 +1,47 @@
+begin:
+    graph x;
+    // definiše prazan graf
+    // [1, 2]
+    graph y={1:[1,2], 2:[3,1,4], 3:[4], 4:[]};
+    graph z=y;
+    print_matrix_d(y);
+    // na stdout štampa graf y u formi matrice susedstva
+    // posmatran kao usmereni graf
+    //1 1 0 0
+    //1 0 1 1
+    //0 0 0 1
+    //0 0 0 0
+    print_matrix_u(y);
+    // na stdout štampa graf y u formi matrice susedstva
+    // posmatran kao neusmereni graf
+    //1 1 0 0
+    //1 0 1 1
+    //0 1 0 1
+    //0 1 1 0
+
+    graph w1 = {1:[1, 4], 4:[10], 10:[1,4]};
+
+    graph w2 = w1 + y; // w2 = {1:[1,2,4], 2:[3,1,4], 3:[4], 4:[10], 10:[1,4]}
+    w2 = w1 + {2:[1], 1:[1,2]}; // w2={1:[1,2,4], 2:[1], 4:[10], 10:[1,4]}
+    graph w3 = w1*y; // w3 = {1:[1], 4:[]}
+    print_matrix_d(w3);
+    //1 0 0 0 
+    //0 0 0 0 
+    //0 0 0 0 
+    //0 0 0 0
+
+    graph w4 = ~w3; // w4 = {1:[4], 4:[1,4]}
+    print_matrix_d(w4);
+    //0 0 0 1 
+    //0 0 0 0 
+    //0 0 0 0 
+    //1 0 0 1
+
+    print_matrix_d(w1);
+
+    delete w1 4;
+
+    print_matrix_d(w1);
+
+    w2[1];
+end

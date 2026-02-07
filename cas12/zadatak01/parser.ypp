@@ -1,0 +1,152 @@
+%{
+    #include <iostream>
+    #include<set>
+    #include<map>
+
+    #include "Graf.hpp"
+    #include "TablicaSimbola.hpp"
+
+    #define YYDEBUG 1
+    
+    extern int yylex();
+
+    void yyerror(const std::string& poruka) {
+        std::cerr << poruka << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    TablicaSimbola tablica;
+%}
+
+%union {
+    std::set<int>* s;
+    std::pair<int, std::set<int>>* p;
+    std::map<int, std::set<int>>* m;
+    int i;
+    std::string* id;
+    Graf* g;
+}
+
+%token BEGIN_T END_T PRINT_D_T PRINT_U_T GRAPH_T DELETE_T   
+%token<i> BROJ_T
+%token<id> ID_T
+
+%type<s> niz_brojeva
+%type<p> cvor
+%type<m> niz_cvorova
+%type<g> izraz
+
+%left '+'
+%left '*'
+%right '~'
+
+%%
+
+program: BEGIN_T ':' niz_naredbi END_T
+    ;
+
+niz_naredbi: niz_naredbi naredba ';'
+    | naredba ';'
+    ;
+
+naredba: GRAPH_T ID_T {
+        tablica.dodajPromenljivu(*$2, new Graf());
+        delete $2;
+    }
+    | GRAPH_T ID_T '=' izraz {
+        tablica.dodajPromenljivu(*$2, $4);
+        delete $2;
+    }
+    | PRINT_D_T '(' izraz ')' {
+        $3->ispisiUsmereno();
+        delete $3;
+    }
+    | PRINT_U_T '(' izraz ')' {
+        $3->ispisiNeusmereno();
+        delete $3;
+    }
+    | ID_T '=' izraz {
+        if (!tablica.postojiPromenljiva(*$1)) {
+            yyerror("Promenljiva nije definisana");
+        }
+        tablica.dodajPromenljivu(*$1, $3);
+        delete $1;
+    }
+    | DELETE_T ID_T BROJ_T {
+        Graf* g = tablica.vratiPromenljivu(*$2);
+        g->obrisiCvor($3);
+        delete $2;
+    }
+    | ID_T '[' BROJ_T ']' {
+        Graf* g = tablica.vratiPromenljivu(*$1);
+        g->ispisiSusede($3);
+        delete $1;
+    }
+    ;
+
+izraz: ID_T {
+        $$ = new Graf(*tablica.vratiPromenljivu(*$1));
+        delete $1;
+    }
+    | '{' niz_cvorova '}' {
+        $$ = new Graf(*$2);
+        delete $2;
+    }
+    | izraz '+' izraz {
+        $$ = new Graf(*$1 + *$3);
+        delete $1;
+        delete $3;
+    }
+    | izraz '*' izraz {
+        $$ = new Graf(*$1 * *$3);
+        delete $1;
+        delete $3;
+    }
+    | '~' izraz {
+        $$ = new Graf(~(*$2));
+        delete $2;
+    }
+    ;
+
+niz_cvorova: niz_cvorova ',' cvor {
+        $$ = $1;
+        (*$$)[$3->first] = $3->second;
+        delete $3;
+    }
+    | cvor { 
+        $$ = new std::map<int, std::set<int>>();
+        (*$$)[$1->first] = $1->second;
+        delete $1;
+    }
+    ;
+
+cvor: BROJ_T ':' '[' niz_brojeva ']' {
+        $$ = new std::pair<int, std::set<int>>($1, *$4);
+        delete $4;
+    }
+    | BROJ_T ':' '[' ']' {
+        $$ = new std::pair<int, std::set<int>>($1, std::set<int>());
+    }
+    ;
+
+niz_brojeva: niz_brojeva ',' BROJ_T {
+        $$ = $1;
+        $$->insert($3);
+    }
+    | BROJ_T {
+        $$ = new std::set<int>();
+        $$->insert($1);
+    }
+    ;
+
+%%
+
+int main() {
+    //yydebug = 1;
+
+    if (yyparse() == 0) {
+        std::cout << "sve ok" << std::endl;
+    }
+
+    return 0;
+}
