@@ -3,23 +3,10 @@
 //////////////////////////////////////////////////////////
 
 int nadjiMaxCvor(const std::map<int, std::set<int>>& graf) {
-    int max = 0;
-
-    for (auto& par : graf) {
-        int cvor = par.first;
-        if (cvor > max) {
-            max = cvor;
-        }
-
-        auto& susedi = par.second;
-        for (auto sused : susedi) {
-            if (sused > max) {
-                max = sused;
-            }
-        }
-    }
-
-    return max;
+    // Ne moramo prolaziti kroz sve cvorove i njihove susede.
+    // Svi cvorovi su kljucevi u mapi pa je dovoljno pronaci najveci kljuc.
+    // Kako su kljucevi sortirani - uzmemo poslednji
+    return graf.empty() ? 0 : graf.rbegin()->first;
 }
 
 //////////////////////////////////////////////////////////
