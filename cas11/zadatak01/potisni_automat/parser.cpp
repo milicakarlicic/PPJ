@@ -4,11 +4,11 @@
 
 // Gramatika sa skupovima izbora:
 
-// program: naredba ';' program_p      {ID, PRINT_T}
-// program_p: naredba ';' program_p    {ID, PRINT_T}
+// program: naredba ';' program_p      {ID, PRINT}
+// program_p: naredba ';' program_p    {ID, PRINT}
 //       | eps                         {EOI}
 // naredba: ID = e                     {ID}
-//       | PRINT ( e )                 {PRINT_T}
+//       | PRINT ( e )                 {PRINT}
 // e -> t e_p                          {(, BROJ, ID, -}
 // e_p -> + t e_p                      {+}
 //       | - t e_p                     {-}
@@ -79,7 +79,7 @@ int main() {
                     stek.push('(');
                     stek.push(PRINT);
                 } else {
-                    greska("[naredba] Ocekujem ID, PRINT ili EOI");
+                    greska("[naredba] Ocekujem ID ili PRINT");
                 }
                 break;
 
@@ -168,7 +168,11 @@ int main() {
         }
     }
 
-    std::cout << "sve ok" << std::endl;
+    if (preduvid == EOI) {
+        std::cout << "sve ok" << std::endl;
+    } else {
+        std::cout << "nije ok" << std::endl;
+    }
 
     return 0;
 }
