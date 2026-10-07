@@ -4,7 +4,7 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
 
 ## Materijali
   - čas01: Regularni izrazi. Prošireni regularni izrazi. Gramzivost. Lenjo izračunavanje. Sidra. Grupisanje teksta. Preduvidi i postuvidi. [Kalkulator](https://regexr.com/) za rad sa regularnim izrazima.
-  - čas02: Programski jezik _Python_.
+  <!-- - čas02: Programski jezik _Python_.
   - čas03: Programski jezik _Python_ - nastavak. _Flex_.
   - čas04: _Flex_ - nastavak. C++.
   - čas05: C++ - nastavak. Sintaksna analiza naviše. _Bison_ - interaktivni parser.
@@ -16,4 +16,4 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
   - čas11: Sintaksna analiza naniže. Rekurzivni spust. Potisni automat.
     _Online_ [alat](https://lab.brainonfire.net/CFG/remove-left-recursion.html) za eliminisanje lijeve rekurzije u gramatici.
     _Online_ [alat](https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/) za LL(1) gramatike.
-  - čas12: Ispitni rokovi.
+  - čas12: Ispitni rokovi. -->
