@@ -4,7 +4,8 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
 
 ## Materijali
   - čas01: Regularni izrazi. Prošireni regularni izrazi. Gramzivost. Lenjo izračunavanje. Sidra. Grupisanje teksta. Preduvidi i postuvidi. [Kalkulator](https://regexr.com/) za rad sa regularnim izrazima.
-  - čas02: Primena regularnih izraza u programskom jeziku _Python_. 
+  - čas02: Primena regularnih izraza u programskom jeziku _Python_.
+  - čas03: Leksička analiza - _Flex_.
   <!--
   - čas03: Programski jezik _Python_ - nastavak. _Flex_.
   - čas04: _Flex_ - nastavak. C++.
