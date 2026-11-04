@@ -46,7 +46,7 @@ int main() {
                     stek.push(T);
                     stek.push('+');
                 } else if (preduvid == ')' || preduvid == eoi) {
-                    std::cout << "E' => Eps\n";
+                    std::cout << "E' => eps\n";
                 } else {
                     greska("[E'] Ocekujem +, ( ili eoi");
                 }
@@ -67,7 +67,7 @@ int main() {
                     stek.push(F);
                     stek.push('*');
                 } else if (preduvid == '+' || preduvid == ')' || preduvid == eoi) {
-                    std::cout << "T' => Eps\n";
+                    std::cout << "T' => eps\n";
                 } else {
                     greska("[T'] Ocekujem +, ( ili eoi");
                 }

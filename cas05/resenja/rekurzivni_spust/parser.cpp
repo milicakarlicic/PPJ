@@ -56,7 +56,7 @@ void EP() {
         T();
         EP();
     } else if (preduvid == ')' || preduvid == eoi) {
-        std::cout << "E' => Eps\n";
+        std::cout << "E' => eps\n";
     } else {
         greska("[E'] Ocekujem +, ) ili eoi!");
     }
@@ -79,7 +79,7 @@ void TP() {
         F();
         TP();
     } else if (preduvid == '+' || preduvid == ')' || preduvid == eoi) {
-        std::cout << "T' => Eps\n";
+        std::cout << "T' => eps\n";
     } else {
         greska("[T'] Ocekujem +, ), * ili eoi!");
     }
