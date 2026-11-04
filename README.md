@@ -8,7 +8,6 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
   - čas03: Leksička analiza - _Flex_.
   - čas04: Kontekstno slobodne gramatike i njihove transformacije ([zbirka](https://matf-bg-ac-rs.gitlab.io/course-ppj/ppj-literatura/ppj_zbirka.pdf) 6. poglavlje). _Online_ [alat](https://lab.brainonfire.net/CFG/remove-left-recursion.html) za eliminisanje lijeve rekurzije u gramatici.
   - čas05: Sintaksna analiza naniže. Rekurzivni spust. Potisni automat.
-    _Online_ [alat](https://lab.brainonfire.net/CFG/remove-left-recursion.html) za eliminisanje lijeve rekurzije u gramatici.
     _Online_ [alat](https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/) za LL(1) gramatike.
   <!--
   - čas03: Programski jezik _Python_ - nastavak. _Flex_.
