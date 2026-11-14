@@ -1,0 +1,57 @@
+---------------------------------------------------------------------------------------------
+Pocetna gramatika: 
+---------------------------------------------------------------------------------------------
+
+NIZ_NAREDBI -> NAREDBA ; NIZ_NAREDBI
+            | NAREDBA ;
+
+NAREDBA -> list_num id
+            | list_num id = { NIZ_BR }
+            | list_str id 
+            | list_str id = { NIZ_STR }
+            | id = id
+            | id print
+            | id print_r
+
+NIZ_BR -> broj , NIZ_BR
+        | broj
+
+NIZ_STR -> str , NIZ_STR
+        | str
+
+---------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------
+Gramatika sa skupovima izbora:
+---------------------------------------------------------------------------------------------
+
+NIZ_NAREDBI -> NAREDBA ; NIZ_NAREDBI'       {list_num, list_str, id}
+
+NIZ_NAREDBI' -> NIZ_NAREDBI                 {list_num, list_str, id}
+                | eps                       {eoi}
+
+NAREDBA -> list_num id DODELA_BR            {list_num}
+            | list_str id DODELA_STR        {list_str}
+            | id POM                        {id}
+
+DODELA_BR -> eps                            {;}
+            | = { NIZ_BR }                  {=}
+
+DODELA_STR -> eps                           {;}
+            | = { NIZ_STR }                 {=}
+
+POM -> = id                                 {id}
+        | print                             {print}
+        | print_r                           {print_r}
+
+NIZ_BR -> broj NIZ_BR'                      {broj}
+
+NIZ_BR' -> , NIZ_BR                         {,}
+            | eps                           { } }
+
+NIZ_STR -> str NIZ_STR'                     {str}
+
+NIZ_STR' -> , NIZ_STR                       {,}
+            | eps                           { } }

@@ -1,0 +1,26 @@
+Gramatika sa skupovima izbora:
+
+NIZ_NAREDBI -> NAREDBA ';' NIZ_NAREDBI       {id, print}
+
+NIZ_NAREDBI' -> NAREDBA ';' NIZ_NAREDBI'     {id, print}
+      | eps                                  {eoi}
+
+NAREDBA -> id = E                            {id}
+      | print ( E )                          {print}
+
+E -> T E'                                    {(, broj, id, -}
+
+E' -> + T E'                                 {+}
+      | - T E'                               {-}
+      | eps                                  {;, )}
+
+T -> F T'                                    {(, broj, id, -}
+
+T' -> * F T'                                 {*}
+      | / F T'                               {/}
+      | eps                                  {+, -, ;, )}
+      
+F -> ( E )                                   {(}
+      | broj                                 {broj}
+      | id                                   {id}
+      | - F                                  {-}

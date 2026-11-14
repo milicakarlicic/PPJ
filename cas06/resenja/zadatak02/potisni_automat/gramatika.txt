@@ -1,0 +1,28 @@
+Gramatika sa skupovima izbora:
+
+NIZ_NAREDBI -> NAREDBA ';' NIZ_NAREDBI'     {broj_tip, stampaj}
+
+NIZ_NAREDBI' ->  NIZ_NAREDBI                {broj_tip, stampaj}
+                  | eps                     {eoi}
+
+NAREDBA ->  broj_tip id DODELA              {broj_tip}
+            | stampaj ( NIZ_ARG )           {stampaj}
+
+DODELA ->  eps                              {;}
+            | dodela E                      {dodela}
+
+E -> T E'                                   {-, sqrt_token, broj, id}
+
+E' -> + T E'                                {+}
+      | - T E'                              {-}
+      | eps                                 {;, ), ,}
+
+T ->  - T                                   {-}
+      | sqrt_token ( E )                    {sqrt_token}
+      | broj                                {broj}
+      | id                                  {id}
+
+NIZ_ARG -> E NIZ_ARG'                       {-, sqrt_token, broj, id}
+
+NIZ_ARG' -> , NIZ_ARG                       {,}
+            | eps                           {)}      
