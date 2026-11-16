@@ -29,9 +29,9 @@ F -> ( E )
 Gramatika sa skupovima izbora:
 ---------------------------------------------------------------------------------------------
 
-NIZ_NAREDBI -> NAREDBA ; NIZ_NAREDBI'      {id, print}
+NIZ_NAREDBI -> NAREDBA ; NIZ_NAREDBI'        {id, print}
 
-NIZ_NAREDBI' -> NAREDBA ; NIZ_NAREDBI'     {id, print}
+NIZ_NAREDBI' -> NAREDBA ; NIZ_NAREDBI'       {id, print}
       | eps                                  {eoi}
 
 NAREDBA -> id = E                            {id}

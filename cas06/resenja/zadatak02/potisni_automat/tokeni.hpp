@@ -16,7 +16,8 @@
 #define E               (1004)
 #define E_P             (1005)
 #define T               (1006)
-#define NIZ_ARG         (1007)
-#define NIZ_ARG_P       (1008)
+#define T_P             (1007)
+#define NIZ_ARG         (1008)
+#define NIZ_ARG_P       (1009)
 
 #endif

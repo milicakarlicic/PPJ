@@ -17,6 +17,7 @@ void DODELA();
 void E();
 void E_P();
 void T();
+void T_P();
 void NIZ_ARG();
 void NIZ_ARG_P();
 
@@ -130,17 +131,14 @@ void T() {
         preduvid = yylex();
         T();
     } else if (preduvid == sqrt_token) {
-        std::cout << "T => sqrt_token ( E )\n";
+        std::cout << "T => sqrt_token ( E T_P\n";
         preduvid = yylex();
         if (preduvid != '(') {
             greska("[T] Ocekujem (");
         }
         preduvid = yylex();
         E();
-        if (preduvid != ')') {
-            greska("[T] Ocekujem )");
-        }
-        preduvid = yylex();
+        T_P();
     } else if (preduvid == id) {
         std::cout << "T => id\n";
         preduvid = yylex();
@@ -149,6 +147,26 @@ void T() {
         preduvid = yylex();
     } else {
         greska("[T] Ocekujem -, sqrt_token, id ili broj");
+    }
+}
+
+void T_P() {
+    if (preduvid == ')') {
+        std::cout << "T' => )\n";
+        preduvid = yylex();
+    } else if (preduvid == ',') {
+        std::cout << "T' => , broj )\n";
+        preduvid = yylex();
+        if (preduvid != broj) {
+            greska("[T'] Ocekujem broj");
+        }
+        preduvid = yylex();
+        if (preduvid != ')') {
+            greska("[T'] Ocekujem )");
+        }
+        preduvid = yylex();
+    } else {
+        greska("[T'] Ocekujem ) ili ,");
     }
 }
 

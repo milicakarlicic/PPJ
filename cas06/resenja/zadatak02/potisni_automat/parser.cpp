@@ -99,8 +99,8 @@ int main() {
                     stek.push(T);
                     stek.push('-');
                 } else if (preduvid == sqrt_token) {
-                    std::cout << "T -> sqrt_token ( E )\n";
-                    stek.push(')');
+                    std::cout << "T -> sqrt_token ( E T_P\n";
+                    stek.push(T_P);
                     stek.push(E);
                     stek.push('(');
                     stek.push(sqrt_token);
@@ -112,6 +112,19 @@ int main() {
                     stek.push(broj);
                 } else {
                     greska("[T] Ocekujem -, sqrt_token, id ili broj");
+                }
+                break;
+            case T_P:
+                if (preduvid == ')') {
+                    std::cout << "T' -> )\n";
+                    stek.push(')');
+                } else if (preduvid == ',') {
+                    std::cout << "T' -> , broj )\n";
+                    stek.push(')');
+                    stek.push(broj);
+                    stek.push(',');
+                } else {
+                    greska("[T'] Ocekujem ) ili ,");
                 }
                 break;
             case NIZ_ARG:
