@@ -10,6 +10,7 @@ Repozitorijum sadrži materijale sa časova vježbi iz predmeta Prevođenje prog
   - čas05: Sintaksna analiza naniže. Rekurzivni spust. Potisni automat.
     _Online_ [alat](https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/) za LL(1) gramatike.
   - čas06: Sintaksna analiza naniže - vježba.
+  - čas07: C++.
   <!--
   - čas03: Programski jezik _Python_ - nastavak. _Flex_.
   - čas04: _Flex_ - nastavak. C++.
