@@ -1,8 +1,37 @@
+---------------------------------------------------------------------------------------------
+Pocetna gramatika: 
+---------------------------------------------------------------------------------------------
+
+NIZ_NAREDBI -> NIZ_NAREDBI NAREDBA ;
+            | NAREDBA ;
+
+NAREDBA -> id = E
+            | print ( E )
+
+E -> E + T
+      | E - T
+      | T
+
+T -> T * F
+      | T / F
+      | F
+
+F -> ( E )                                   
+      | broj                                 
+      | id                                   
+      | - F                                   
+
+---------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------
 Gramatika sa skupovima izbora:
+---------------------------------------------------------------------------------------------
 
-NIZ_NAREDBI -> NAREDBA ';' NIZ_NAREDBI       {id, print}
+NIZ_NAREDBI -> NAREDBA ; NIZ_NAREDBI'      {id, print}
 
-NIZ_NAREDBI' -> NAREDBA ';' NIZ_NAREDBI'     {id, print}
+NIZ_NAREDBI' -> NAREDBA ; NIZ_NAREDBI'     {id, print}
       | eps                                  {eoi}
 
 NAREDBA -> id = E                            {id}
